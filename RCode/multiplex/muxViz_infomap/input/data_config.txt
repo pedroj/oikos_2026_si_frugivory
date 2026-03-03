@@ -1,0 +1,3 @@
+/Users/pedro/Documents/Working/MS_Oikos_SI-FSD2024/./RCode/multiplex/muxViz_infomap/input/layer1.edges;Herbivory;/Users/pedro/Documents/Working/MS_Oikos_SI-FSD2024/./RCode/multiplex/muxViz_infomap/input/nodes_layout.txt
+/Users/pedro/Documents/Working/MS_Oikos_SI-FSD2024/./RCode/multiplex/muxViz_infomap/input/layer2.edges;Pollination;/Users/pedro/Documents/Working/MS_Oikos_SI-FSD2024/./RCode/multiplex/muxViz_infomap/input/nodes_layout.txt
+/Users/pedro/Documents/Working/MS_Oikos_SI-FSD2024/./RCode/multiplex/muxViz_infomap/input/layer3.edges;Seed dispersal;/Users/pedro/Documents/Working/MS_Oikos_SI-FSD2024/./RCode/multiplex/muxViz_infomap/input/nodes_layout.txt

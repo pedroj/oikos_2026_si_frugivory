@@ -1,0 +1,58 @@
+layer	node	eigen.centrality.mono
+Herbivory	pm1933	0.060023
+Herbivory	pm1931	0.687932
+Herbivory	pm1932	0.080389
+Herbivory	pm1934	0.474073
+Herbivory	pm1936	0.307557
+Herbivory	pm1937	0.273984
+Herbivory	pm1938	0.050019
+Herbivory	pm1939	0.180539
+Herbivory	pm1940	0.631666
+Herbivory	pm1921	0.265456
+Herbivory	pm1823	0.321773
+Herbivory	pm1824	0.156645
+Herbivory	pm1820	0.043412
+Herbivory	pm1825	0.080031
+Herbivory	pm1929	0.443902
+Herbivory	pm8801	0.230447
+Herbivory	pm8808	0.076321
+Herbivory	pm8814	0.120046
+Herbivory	pm8865	0.210081
+Pollination	pm1933	0.04106236
+Pollination	pm1931	0.36654407
+Pollination	pm1932	0.43787789
+Pollination	pm1934	0.11360172
+Pollination	pm1936	0.14601318
+Pollination	pm1937	0.12121844
+Pollination	pm1938	0.20585237
+Pollination	pm1939	0.3120494
+Pollination	pm1940	0.91642632
+Pollination	pm1921	0.14154321
+Pollination	pm1823	0.08107443
+Pollination	pm1824	0.18008875
+Pollination	pm1820	0.10556465
+Pollination	pm1825	0.12010656
+Pollination	pm1929	0.11817677
+Pollination	pm8801	0.0484722
+Pollination	pm8808	0.10352171
+Pollination	pm8814	0.12107143
+Pollination	pm8865	0.08567677
+Seed dispersal	pm1933	0.2631021
+Seed dispersal	pm1931	0.3159558
+Seed dispersal	pm1932	0.2023049
+Seed dispersal	pm1934	0.0448351
+Seed dispersal	pm1936	0.0165444
+Seed dispersal	pm1937	0.1216008
+Seed dispersal	pm1938	0.0914324
+Seed dispersal	pm1939	0.1238324
+Seed dispersal	pm1940	0.1715725
+Seed dispersal	pm1921	0.2373338
+Seed dispersal	pm1823	0.9789865
+Seed dispersal	pm1824	0.3548506
+Seed dispersal	pm1820	0.2009953
+Seed dispersal	pm1825	0.3681562
+Seed dispersal	pm1929	0.0242174
+Seed dispersal	pm8801	0.5524784
+Seed dispersal	pm8808	0.2195318
+Seed dispersal	pm8814	0.1384348
+Seed dispersal	pm8865	0.2336792

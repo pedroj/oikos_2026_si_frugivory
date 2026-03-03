@@ -1,0 +1,342 @@
+---
+title: "Multiplex analysis-Prunus mahaleb- with Infomap"
+author:
+  name: Pedro Jordano
+  affiliation: 
+    name: Estación Biológica de Doñana, CSIC and Dept. Biol. Vegetal y Ecología, Universidad de Sevilla
+toc: false
+orcid: 0000-0003-2142-9116
+email: jordano@ebd.csic.es
+city: Sevilla
+url: pjordanolab.ebd.csic.es
+date: "2023-11-23"
+output: pdf_document
+format: 
+   pdf:
+      documentclass: article
+      papersize: a4
+      classoption: [11pt]
+      fig-width: 8
+      fig-height: 6
+      geometry:
+        - top=20mm
+        - left=25mm
+        - right=15mm
+        - bottom=20mm
+        - textwidth=130mm
+code-fold: TRUE
+bibliography: grateful-infomap-refs.bib
+editor_options: 
+     chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#----------------------------------------------------------------------------------------------
+library(here)
+library(dplyr)
+library(bipartite)
+library(multinet)
+library(igraph)
+library(MuMIn)
+library(mgcv)
+library(performance)
+library(muxViz)
+library(rsq)
+library(rgl)
+library(viridis)
+library(lme4)
+library(GGally)
+library(intergraph)
+library(RColorBrewer)
+library(ggraph)
+library(ggbipart)
+library(ggcorrplot)
+library(infomapecology)
+library(emln)
+library(ComplexHeatmap)
+#----------------------------------------------------------------------------------------------
+# Setup paths to external fanmod and infomap executables.
+pathFanmod <- here::here("RCode/multiplex/src-exe/fanmod_macosx")
+pathInfomap <- here::here("RCode/multiplex/src-exe/Infomap")
+
+```
+
+## Data
+
+Reading the multilayer network (dataframe) with three separate files, one for each type of
+interaction. The data are read as square, weighted adjacency matrices to avoid problems
+and limitations in infomap. I'm using the `emln` setup to get a multiplex arrangement to
+be analizwd for multilayer modularity with `infomap` (shell binary executable).
+
+```{r data, echo=TRUE}
+# Data from raw interaction matrices. 
+pm.herb<- read.table(here::here("data/raw/multiplex/pmah_herb.txt"), 
+     na="NA", sep="\t", dec=".", header= TRUE)
+pm.poll<- read.table(here::here("data/raw/multiplex/pmah_poll.txt"), 
+    na="NA", sep="\t", dec=".", header= TRUE)
+pm.disp<- read.table(here::here("data/raw/multiplex/pmah_disp.txt"), sep="\t",
+                     dec=".", header= TRUE)
+pm.attr<- read.table(here::here("data/raw/multiplex/pmah_attr.txt"), 
+    na="NA", sep="\t", dec=".", header= TRUE)
+
+# Interaction matrices extracted from the dataframes.
+pm.herb.mat<- as.matrix(pm.herb[1:19,2:12], 
+        ncol = n, dimnames = list(paste0("A", 1:12), paste0("P", 1:19)))
+row.names(pm.herb.mat)<- pm.herb$X[1:19]
+
+pm.poll.mat<- as.matrix(pm.poll[1:19,2:44], 
+        dimnames = list(paste0("A", 1:44), paste0("P", 1:19)))
+row.names(pm.poll.mat)<- pm.poll$X[1:19]
+
+pm.disp.mat<- as.matrix(pm.disp[1:19,2:22], 
+        dimnames = list(paste0("A", 1:22), paste0("P", 1:19)))
+row.names(pm.disp.mat)<- pm.disp$X[1:19]
+
+# Create the layers from the matrix. These are  the intra-layer interactions,
+# based on the adjacency matrices.
+herbivory_layer <- pm.herb.mat
+pollination_layer <- pm.poll.mat
+seed_dispersal_layer <- pm.disp.mat
+    
+layer_attrib <- tibble(layer_id=1:3,
+                     layer_name=c('Herbivory','Pollination',
+                                  'Seed dispersal'),
+                     Method=c('Observation','Collection','Observation'))
+
+# Create the ELL tibble with interlayer links.
+interlayer <- tibble(layer_from= c(rep('Herbivory',19),
+                                   rep('Pollination',19)),
+                     node_from= c("pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865",
+                                 "pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865"),
+                     layer_to= c(rep('Pollination',19), 
+                                 rep('Seed dispersal',19)),
+                     node_to= c("pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865",
+                                 "pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865"),
+                                 weight= 1) # I'm assuming here 
+                                            # interlayer links weights= 1.
+
+# Create the multilayer. It has 132 nodes, counting the trees just as physical 
+# nodes (only once).
+
+multilayer_bip_pru <- create_multilayer_network(list_of_layers = 
+                      list(herbivory_layer, pollination_layer, 
+                           seed_dispersal_layer), 
+                      bipartite = T, 
+                      directed = F, 
+                      interlayer_links = interlayer, 
+                      layer_attributes = layer_attrib)
+```
+
+------------------------------------------------------------------------------------------
+
+# Infomap
+
+## Exploring modules on the three monolayer networks.
+
+These are just the original, non-square matrices for each type of interaction. I'm using
+this just to see the modular structure of each type of interaction analyzed with Infomap.
+
+```{r monolayer_modul, echo=TRUE, fig.height= 10, fig.width= 12}
+#----------------------------------------------------------------------------------------------
+# Layer 1 - Herbivory interactions
+pm.herb <- create_monolayer_network(pm.herb.mat, 
+                                    bipartite = T, 
+                                    directed = F, 
+                                    group_names = c('A','P'))
+
+pm.herb_object <- run_infomap_monolayer(pm.herb, 
+                                        infomap_executable= "Infomap",
+                                        flow_model = 'undirected',
+                                        silent=T, trials=20, 
+                                        two_level=T, seed=123)
+colnames(pm.herb_object$edge_list)<- c("from","to","w")
+# my_plot_modular_matrix(pm.herb_object)
+
+#----------------------------------------------------------------------------------------------
+# Layer 2 - Pollination interactions
+pm.poll <- create_monolayer_network(pm.poll.mat, 
+                                    bipartite = T, 
+                                    directed = F, 
+                                    group_names = c('A','P'))
+
+pm.poll_object <- run_infomap_monolayer(pm.poll, 
+                                        infomap_executable= "Infomap",
+                                        flow_model = 'undirected',
+                                        silent=T, trials=20, 
+                                        two_level=T, seed=123)
+#colnames(pm.poll_object$edge_list)<- c("from","to","w")
+# my_plot_modular_matrix(pm.poll_object)
+#----------------------------------------------------------------------------------------------
+# Layer 3 - Seed dispersal interactions
+pm.disp <- create_monolayer_network(pm.disp.mat, 
+                                    bipartite = T, 
+                                    directed = F, 
+                                    group_names = c('A','P'))
+
+pm.disp_object <- run_infomap_monolayer(pm.disp, 
+                                        infomap_executable= "Infomap",
+                                        flow_model = 'undirected',
+                                        silent=T, trials=20, 
+                                        two_level=T, seed=123)
+# my_plot_modular_matrix(pm.disp_object)
+
+```
+
+## Multilayer network
+
+Now, we will create the multilayer network. Although effectively it is a bipartite
+network, we will treat it as an unipartite network to be able to account for link
+directions. The description of function `create_multilayer_network` is in the package
+emln. Plotting is done using two dedicated functions in infomapecology:
+`plot_multilayer_modules` and `plot_multilayer_alluvial`.
+
+```{r infomap2, echo=TRUE}
+# Tree atributes dataset.
+# Attributes file.
+pm.attr<- read.table(here("./data/raw/prunus_data/pmah_attr.txt"), 
+                     sep="\t", dec=".", header= TRUE)
+
+require(forcats)
+#pm.attr$pollen <- as.numeric(fct_relevel(data$ISLAND, "GC","TF","Go"))
+pm.attr$pollen <- as.factor(fct_relevel(pm.attr$pollen, "n","+","++"))
+
+#
+# Create a multilayer object
+#
+layer_attrib <- tibble(layer_id=1:3, layer_name=c('Herbivory','Pollination','Dispersal'))                                     
+pmah_interlayer <- read.table(here("./data/raw/multiplex/pmah_interlayer.csv"), 
+                  header=TRUE, sep=",", dec = ".", quote = "", comment.char = "#")
+pmah_layer_attr<- layer_attrib
+
+multilayer_prunus <- create_multilayer_network(list_of_layers = list(pm.herb.mat,
+                                                                      pm.poll.mat,
+                                                                      pm.disp.mat),
+                                              layer_attributes = pmah_layer_attr,
+                                              interlayer_links = pmah_interlayer,       
+                                              bipartite = T,
+                                              directed = F, 
+                                              physical_node_attributes = pm.attr)
+
+```
+
+# Multilayer community detection
+
+```{r infomap_mod, echo=TRUE, fig.height= 9, fig.width= 12}
+source(here::here("RCode/functions/my_run_infomap_multilayer.R"))
+system("./Infomap ./out/multimap_prunus_infomap.edges ./out/ --clu --seed 12345 --num-trials 50 -v --multilayer-relax-rate 0.01, multilayerJSRelaxRate=NA, --two-level outputPrefix= multimap_prunus")
+
+multilayer_bip_pru_modularity <- my_run_infomap_multilayer(M = multilayer_bip_pru,
+						   relax = TRUE, silent = FALSE,
+						   flow_model = "undirected",
+						   trials = 50, seed = 497294,
+						   twoLevel=T,
+                           preclusterMultiplex=F,
+                           addMissingPhysicalNodes=F,
+						   multilayer_relax_rate = 0.01,
+						   multilayer_relax_limit_up = 0.5,
+						   multilayer_relax_limit_down = 0,
+						   multilayerJSRelaxRate=NA,
+						   temporal_network = FALSE)
+
+# List of module composition
+multilayer_bip_pru_modularity$m
+module.comp<- print(multilayer_bip_pru_modularity$modules %>% 
+	dplyr::select(node_id, layer_id, node_name, module), n=1000)
+module.comp<- as.data.frame(module.comp)
+#--------------------------------------------------------------------------
+ggplot(multilayer_bip_pru_modularity$modules, aes(x= as.factor(module), 
+												  y= node_name))+ 
+	                                              geom_tile(aes(fill = flow),
+                                colour = "white") + 
+	                            scale_fill_gradient(low = "#75C4F5",
+                                high = "#14374B") 
+
+```
+
+# Module assignement 3D plot
+
+```{r 3D, echo=TRUE, fig.height=14, fig.width=5}
+# 3d heatmap
+# 
+data<- multilayer_bip_pru_modularity$modules
+str(data)
+
+# Unstacking using pivot_wider()
+df_wide <- pivot_wider(data, id_cols = node_name, names_from = module, values_from = flow)
+str(df_wide)
+head(df_wide)
+
+df_wide.mat<- df_wide %>% select(3,4,5,2,8,6,7)
+df_wide.mat<- as.data.frame(df_wide.mat)
+df_wide.mat<- as.matrix(df_wide.mat)
+rownames(df_wide.mat)<- df_wide$node_name
+# Replace NA values with 0
+df_wide.mat[is.na(df_wide.mat)] <- 0
+
+# Plot
+col_fun = circlize::colorRamp2(c(0, 0.005, 0.025, 0.05, 0.075, 0.1), 
+                               c("#FFFFFF", "#B3C0F5", "#7A93F5", 
+                                 "#1E36EB", "#070F85","#082173"))
+ht_opt$TITLE_PADDING = unit(c(10, 2), "mm")
+Heatmap3D(log(df_wide.mat+1), name = "strength", col = col_fun,
+          cluster_columns = FALSE, show_row_dend = FALSE, 
+          show_column_names = TRUE,
+          heatmap_legend_param = list(at = c(0, 0.025, 0.05, 0.075, 0.1), 
+                                      labels = c("0", "0.025", "0.05", " 0.075", "0.1")),
+          column_title = '      ',
+          row_names_side = "left", 
+          row_names_gp = gpar(fontsize = 8),
+          # new arguments for Heatmap3D()
+          bar_rel_width = 1, bar_rel_height = 1, bar_max_length = unit(1.5, "cm")
+          )
+
+```
+
+Thus modular arrangement can be compared with the one obtained with `bipartite` on the
+flattened multilayer (in `emln` analysis).
+
+------------------------------------------------------------------------------------------
+
+{{< pagebreak >}}
+
+# `R` packages used
+
+```{r grateful}
+#| echo: FALSE
+#| message: FALSE
+#| class.message: FALSE,
+#| class.warning: FALSE,
+#| warning: FALSE
+
+pkgs <- grateful::cite_packages(output = "table", pkgs = "Session", out.dir = ".")
+knitr::kable(pkgs)
+
+```
+
+{{< pagebreak >}}
+
+# Session info
+
+```{r session, warning=FALSE, error=FALSE}
+sessionInfo()
+
+```
+
+{{< pagebreak >}}
+
+# References
+
+------------------------------------------------------------------------------------------

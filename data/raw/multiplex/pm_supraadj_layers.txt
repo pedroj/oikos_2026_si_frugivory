@@ -1,0 +1,4 @@
+layerID layerLabel
+1 Herbivory
+2 Pollination
+3 Seed_dispersal

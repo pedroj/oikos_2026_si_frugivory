@@ -1,0 +1,62 @@
+order	fam	sp	common	behav	bmass	gape	frug	BESP	UFSC	JURU	IRAC	FSJO	SGEN	CARA	SCLA	MPAD	PANT	SJOA	CAET	IGUA	CARD	PILO	RUNA	SMAZ	SBAR	VRIC	SVIR	CBOT	TING
+Passeriformes	Cotingidae	Carpornis cucullata	Hooded Berryeater	regurgitate	75.7	14.4	3	0	NA	1	NA	NA	NA	0	NA	NA	0	0	NA	NA	0	1	NA	NA	1	NA	1	1	1
+Passeriformes	Cotingidae	Carpornis melanocephala	Black-headed Berryeater	regurgitate	64.2	16.9	3	0	NA	0	NA	NA	NA	0	NA	NA	0	0	NA	NA	1	0	1	1	1	NA	0	1	0
+Passeriformes	Cotingidae	Lipaugus lanioides	Cinnamon-vented Piha	regurgitate	94.8	18.7	3	0	0	0	0	0	0	0	NA	NA	0	1	0	NA	0	0	NA	NA	1	NA	1	1	0
+Passeriformes	Cotingidae	Lipaugus vociferans	Screaming Piha	regurgitate	69.2	17.7	3	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	1	1	NA	NA	NA	NA	NA
+Passeriformes	Cotingidae	Procnias averano	Bearded Bellbird	regurgitate	168.0	25.0	3	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA
+Passeriformes	Cotingidae	Procnias nudicollis	Bare-throated Bellbird	regurgitate	174.0	24.5	3	0	0	1	0	0	0	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Cotingidae	Pyroderus scutatus	Red-ruffed Fruitcrow	regurgitate	357.0	26.7	3	0	0	1	0	0	0	1	1	1	0	1	0	1	1	1	0	0	1	0	1	1	0
+Passeriformes	Cotingidae	Tijuca atra	Black-and-gold Cotinga	regurgitate	80.0	15.2	3	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	1
+Passeriformes	Mimidae	Mimus saturninus	Chalk-browed Mockingbird	regurgitate	73.0	12.9	1	0	1	1	1	0	1	0	1	1	1	0	1	1	1	1	1	1	0	1	1	0	1
+Coraciiformes	Momotidae	Baryphthengus ruficapillus	Rufous-capped Motmot	regurgitate	175.0	17.2	1	0	0	1	0	0	0	1	0	0	1	0	1	1	1	1	0	0	1	1	1	1	1
+Piciformes	Picidae	Celeus flavescens	Blond-crested Woodpecker	regurgitate	201.0	12.9	1	1	0	1	0	0	1	1	1	1	1	0	1	1	1	1	0	0	1	1	1	1	1
+Gruiformes	Rallidae	Aramides cajanea	Gray-necked Wood-Rail	regurgitate	397.0	16.4	1	1	0	1	1	1	1	1	1	1	1	1	0	0	0	1	0	0	1	1	0	1	0
+Piciformes	Ramphastidae	Pteroglossus aracari	Black-necked Aracari	regurgitate	232.0	29.1	3	0	0	0	0	0	0	0	1	1	1	0	1	NA	0	0	1	1	0	1	0	0	0
+Piciformes	Ramphastidae	Pteroglossus bailloni	Saffron Toucanet	regurgitate	139.0	23.6	3	0	0	0	0	0	0	0	NA	NA	0	0	NA	1	0	0	NA	NA	1	1	1	1	0
+Piciformes	Ramphastidae	Ramphastos dicolorus	Red-breasted Toucan	regurgitate	400.0	30.7	3	NA	0	0	0	0	0	0	0	0	NA	0	0	1	1	1	NA	NA	1	0	1	1	1
+Piciformes	Ramphastidae	Ramphastos vitellinus	Channel-billed Toucan	regurgitate	361.5	31.0	3	0	NA	0	NA	NA	NA	0	NA	1	1	1	0	NA	1	1	1	1	1	NA	0	1	1
+Piciformes	Ramphastidae	Selenidera maculirostris	Spot-billed Toucanet	regurgitate	160.0	25.2	3	0	0	0	0	0	0	0	0	0	1	0	0	1	1	1	0	0	1	1	0	1	1
+Passeriformes	Tityridae	Tityra cayana	Black-tailed Tityra	regurgitate	68.1	18.7	2	0	0	1	0	0	0	1	1	0	0	0	1	1	1	1	1	1	1	1	1	1	0
+Trogoniformes	Trogonidae	Trogon rufus	Black-throated Trogon	regurgitate	52.8	17.8	1	0	NA	1	NA	NA	NA	0	NA	NA	0	0	1	1	0	1	1	1	1	1	1	1	1
+Trogoniformes	Trogonidae	Trogon surrucura	Surucua Trogon	regurgitate	73.3	18.0	1	1	0	1	0	1	0	0	1	0	0	0	1	1	0	1	NA	NA	0	1	1	1	1
+Trogoniformes	Trogonidae	Trogon viridis	White-tailed Trogon	regurgitate	87.6	19.6	2	0	NA	1	NA	NA	NA	1	NA	NA	0	1	NA	NA	1	1	1	1	1	NA	1	1	1
+Passeriformes	Turdidae	Turdus albicollis	White-necked Thrush	regurgitate	54.1	11.2	2	1	0	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Turdidae	Turdus amaurochalinus	Creamy-bellied Thrush	regurgitate	63.1	11.4	2	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	0
+Passeriformes	Turdidae	Turdus flavipes	Yellow-legged Thrush	regurgitate	60.0	12.0	2	0	NA	1	NA	NA	0	1	0	1	1	1	0	1	1	1	0	0	1	NA	1	1	1
+Passeriformes	Turdidae	Turdus leucomelas	Pale-breasted Thrush	regurgitate	68.6	11.9	2	1	1	0	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Turdidae	Turdus rufiventris	Rufous-bellied Thrush	regurgitate	69.5	12.0	2	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Turdidae	Turdus subalaris	Eastern Slaty Thrush	regurgitate	49.5	12.0	2	1	0	0	0	0	1	NA	0	0	1	NA	1	1	NA	0	NA	NA	1	1	NA	0	NA
+Passeriformes	Tyrannidae	Myiodynastes maculatus	Streaked Flycatcher	regurgitate	45.9	17.0	1	1	1	1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	0
+Passeriformes	Tyrannidae	Pitangus sulphuratus 	Great Kiskadee	regurgitate	61.0	15.5	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Galliformes	Cracidae	Aburria jacutinga	Black-fronted Piping-Guan	defecate	1250.0	24.0	3	0	NA	0	NA	NA	NA	0	NA	NA	0	0	NA	1	1	NA	0	0	1	0	0	1	0
+Galliformes	Cracidae	Crax blumenbachii	Red-billed Curassow	defecate	3500.0	25.7	2	0	NA	NA	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0	1	0	NA	NA	NA	NA	0
+Galliformes	Cracidae	Ortalis guttata araucuan	Speckled Chachalaca	defecate	500.0	15.8	2	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	0	0	NA	NA	NA	NA	NA
+Galliformes	Cracidae	Ortalis guttata squamata	Speckled Chachalaca	defecate	600.0	16.2	2	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA
+Galliformes	Cracidae	Penelope obscura	Dusky-legged Guan	defecate	960.0	23.4	3	0	0	1	NA	NA	NA	1	NA	NA	0	1	NA	1	1	0	NA	NA	1	0	1	1	1
+Galliformes	Cracidae	Penelope superciliaris	Rusty-margined Guan	defecate	850.0	19.5	3	0	1	1	1	1	1	0	1	1	1	0	1	1	1	1	1	1	0	1	0	0	0
+Coraciiformes	Corvidae	Cyanocorax caeruleus 	Azure Jay	pulp consumer	272.0	17.2	1	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	0	NA	0	1	NA	NA	NA	1	NA	NA	1	NA
+Passeriformes	Fringillidae	Euphonia pectoralis	Chestnut-bellied Euphonia	pulp consumer	16.5	6.5	3	1	0	1	0	0	0	1	0	0	1	1	0	0	1	1	0	1	1	0	1	1	1
+Passeriformes	Fringillidae	Euphonia violacea	Violaceous Euphonia	pulp consumer	15.0	6.5	3	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Icteridae	Cacicus haemorrhous	Red-rumped Cacique	pulp consumer	102.0	12.4	1	0	0	1	0	0	0	1	0	0	1	1	0	1	1	1	0	0	1	1	0	1	1
+Psittaciformes	Psittacidae	Pionus maximiliani	Scaly-headed Parrot	pulp consumer	293.0	16.2	3	1	0	1	1	1	1	1	1	1	1	0	1	1	0	1	0	0	1	1	1	1	1
+Passeriformes	Thraupidae	Dacnis cayana	Blue Dacnis	pulp consumer	11.2	7.0	2	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Thraupidae	Lanio melanops	Black-goggled Tanager	pulp consumer	28.0	10.1	2	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Thraupidae	Orthogonys chloricterus	Olive-green Tanager	pulp consumer	16.0	9.8	2	NA	NA	1	NA	NA	NA	1	NA	NA	NA	0	NA	NA	1		NA	NA	1	NA	1	1	1
+Passeriformes	Thraupidae	Saltator similis	Green-winged Saltator	pulp consumer	43.3	13.0	1	1	0	1	1	0	1	1	1	1	0	1	1	1	0	1	NA	NA	1	1	1	1	1
+Passeriformes	Thraupidae	Tachyphonus coronatus	Ruby-crowned Tanager	pulp consumer	29.3	9.1	2	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	NA	NA	1	1	1	1	1
+Passeriformes	Thraupidae	Tangara cayana	Burnished-buff Tanager	pulp consumer	18.0	8.8	2	1	1	1	1	1	1	NA	1	1	1	0	1	0	1	1	1	1	1	0	1	NA	1
+Passeriformes	Thraupidae	Tangara cyanocephala	Red-necked Tanager	pulp consumer	20.4	6.6	2	0	0	1	0	0	0	1	1	NA	0	0	0	0	1	1	1	1	1	NA	0	1	1
+Passeriformes	Thraupidae	Tangara cyanoptera	Azure-shouldered Tanager	pulp consumer	43.3	10.9	2	1	NA	1	NA	0	0	0	NA	NA	0	0	NA	NA	1	1	NA	NA	1	NA	1	1	1
+Passeriformes	Thraupidae	Tangara ornata	Golden-chevroned Tanager	pulp consumer	NA	NA	2	1	0	1	0	0	0	1	0	1	1	1	0	0	1	1	0	1	1	0	1	1	1
+Passeriformes	Thraupidae	Tangara palmarum	Palm Tanager	pulp consumer	30.0	10.1	2	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Thraupidae	Tangara sayaca	Sayaca Tanager	pulp consumer	32.0	10.1	2	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Thraupidae	Tangara seledon	Green-headed Tanager	pulp consumer	18.7	7.0	2	0	0	1	0	0	0	1	0	0	1	1	NA	1	1	1	1	1	1	1	1	1	1
+Passeriformes	Tityridae	Oxyruncus cristatus	Sharpbill	pulp consumer	42.0	10.8	1	0	0	1	0	0	0	1	0	0	0	0	1	1	0	1	NA	NA	1	1	1	1	1
+Passeriformes	Vireonidae	Cyclarhis gujanensis	Rufous-browed Peppershrike	pulp consumer	NA	NA	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+Columbiformes	Columbidae	Geotrygon montana	Ruddy Quail-dove	seed predator	115.0	10.3	3	1	0	1	0	0	0	1	0	0	1	0	1	1	1	1	0	0	1	1	1	1	0
+Psittaciformes	Psittacidae	Amazona brasiliensis	Red-tailed Parrot	seed predator	425.0	18.8	3	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	1	NA	NA	1	NA	NA	NA	NA	NA	NA	NA	NA
+Psittaciformes	Psittacidae	Brotogeris tirica	Plain Parakeet 	seed predator	63.0	9.9	3	1	NA	1	NA	NA	NA	1	NA	1	0	1	NA	NA	1	1	1	1	1	NA	1	1	1
+Psittaciformes	Psittacidae	Pyrrhura frontalis	Maroon-bellied Parakeet	seed predator	72.0	11.2	3	0	0	1	0	0	0	1	0	0	1	0	1	1	1	1	NA	NA	1	1	1	1	1
+Psittaciformes	Psittacidae	Triclaria malachitacea	Blue-bellied Parrot	seed predator	90.0	13.6	3	NA	NA	1	NA	NA	NA	1	0	0	NA	0	0	0	0	0	NA	NA	1	NA	0	1	1
+Tinamiformes	Tinamidae	Crypturellus tataupa	Tataupa Tinamou	seed predator	264.0	12.8	2	1	0	1	1	1	1	1	1	1	1	0	1	1	0	1	0	0	1	1	1	0	1
+Tinamiformes	Tinamidae	Tinamus solitarius	Solitary Tinamou	seed predator	1284.0	20.9	2	0	0	1	0	0	0	1	0	0	0	0	0	1	1	1	1	1	1	0	1	1	1

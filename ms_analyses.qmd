@@ -1,0 +1,743 @@
+---
+title: "Ms Draft: The biodiversity of plant-frugivore interactions: types, functions, and consequences"
+author:
+  name: Pedro Jordano
+  affiliation: 
+    name: Estación Biológica de Doñana, CSIC and Dept. Biol. Vegetal y Ecología, Universidad de Sevilla
+date: 2025-01-21
+toc: false
+orcid: 0000-0003-2142-9116
+email: jordano@ebd.csic.es
+city: Sevilla
+url: pjordanolab.ebd.csic.es
+abstract: "Pairwise plant-frugivore mutualistic interactions build up into mega-diverse networks involving dozens of interacting species, being the most generalized among free-living species. These mutualisms consist of food provisioning by plants and, their counterpart, plant propagule (seeds) movement by the animals, being crucial for the natural vegetation regeneration in many ecosystems. Yet we are far from understanding which part of this enormous interaction biodiversity is needed for their maintenance.
+I overview the diversity of interaction modes involved in these mutualisms, the main components of the seed dispersal services, and their functional diversity. I examine how interaction richness covaries with partner species richness at different scales, resulting in variable patterns of species complementarities in terms of seed dispersal effects. The functionality of most generalized plant-frugivore mutualisms relies on complementarity of effects across a high diversity of partners, yet frequently depends on just a distinct subset of them, resulting in high functional redundancy. Two distinct aspects are relevant: 1) variable quantitative effects among species; 2) variable parwise-interaction outcomes, between the extremes of antagonism and mutualism."
+keywords:
+        seed dispersal
+        mutualism
+        plant-animal interactions
+        frugivory
+license: "CC BY-NC" 
+copyright: 
+        holder: Pedro Jordano
+year: 2008
+citation: 
+        container-title: Oikos
+volume: 00
+issue: 0
+doi: 00.0000/00000000
+output: html_document
+format: 
+   pdf:
+      documentclass: article
+      papersize: a4
+      classoption: [11pt]
+      fig-width: 8
+      fig-height: 6
+      geometry:
+        - top=20mm
+        - left=25mm
+        - right=15mm
+        - textwidth=130mm
+filters:
+  - multibib    # install from https://github.com/pandoc-ext/multibib
+validate-yaml: false 
+code-fold: TRUE
+bibliography: 
+          main: ms.bib
+          software: grateful-refs.bib
+citeproc: false
+csl: oikos.csl
+editor_options: 
+  chunk_output_type: console
+---
+
+{{< pagebreak >}}
+
+```{r setup, echo=F, warning=F, message=FALSE, include=FALSE}
+library(knitr)
+library(here)           
+library(tidyverse)
+library(dplyr)
+library(lme4)
+library(equatiomatic)
+library(kableExtra)
+library(easystats)
+library(report)
+library(ggcorrplot)
+library(rstatix)
+library(gridExtra)
+library(FD)
+library(latex2exp)
+library(grateful)
+#-----------------------------------------------------------------
+### Chunk options ###
+## Text results
+opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, size = 'tiny')
+## Code decoration
+opts_chunk$set(tidy = FALSE, comment = NA, highlight = TRUE, prompt = FALSE, crop = TRUE)
+# ## Cache
+opts_chunk$set(cache = TRUE)
+# ## Plots
+# opts_chunk$set(fig.path = 'knitr_output/figures/')
+opts_chunk$set(fig.align = 'center', out.width = '98%')
+### Hooks ###
+## Crop plot margins
+knit_hooks$set(crop = hook_pdfcrop)
+## Reduce font size
+## use tinycode = TRUE as chunk option to reduce code font size
+# see http://stackoverflow.com/a/39961605
+# knit_hooks$set(tinycode = function(before, options, envir) {
+#     if (before) return(paste0('\n \\', options$size, '\n\n'))
+#     else return('\n\n \\normalsize \n')
+#     })
+# def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+# knitr::knit_hooks$set(chunk = function(x, options) {
+#   x <- def.chunk.hook(x, options)
+#   paste0("\n \\", "footnotesize","\n\n", x, "\n\n \\Huge")
+# })
+
+```
+
+### Interaction richness and diversity
+
+R code for summarizing relationships between species richness ($S= P + A$) and interaction
+richness ($I$) in plant-frugivore assemblages, as well as other metrics for input
+datasets. Data include $N=$ 165 assemblages, ranging from local to regional and
+biome-scale.
+
+```{r input}
+# here()
+mypath<- here(c("data/data.tsv"))
+data1 <- read.csv(mypath, sep="\t", dec=",", header=T, 
+				  comment.char = "#")
+# data <- data %>% 
+#	         arrange(sp_plant, desc(pct_mut))
+
+```
+
+```{r plots, ECHO=TRUE, warning=F, fig.width=12,fig.height=8}
+# here()
+# Scatter plot
+theme_set(theme_bw(base_size = 18))
+p1<- ggplot(data1, aes(x= S, y= I, color=biome, shape= type)) + 
+	        geom_point(size= 4) +
+			geom_point(aes(color= biome), size= 4.5, color= "black") +
+#			geom_point(aes(color= biome), size= 5) +
+			geom_point(aes(color= biome), size= 3) +
+  	        scale_x_continuous(trans='log10') +
+	        scale_y_continuous(trans='log10') +
+	        scale_color_manual(values=c("#5681DC", "#DEA525")) +
+		    ggplot2::labs(color = "Biome") +
+            ggplot2::labs(x = TeX(r"(Number of species, \textit{S})"), 
+  	            y = TeX(r"(Number of distinct, pairwise interactions, \textit{I})")) 
+p1
+
+```
+
+#### Model fit, pooled data
+
+`glm` model for the regression lines.
+
+```{r regr, echo=TRUE}
+m1 <- lm(log(I) ~ log(S), data = data1)
+equatiomatic::extract_eq(m1)
+equatiomatic::extract_eq(m1, use_coefs = TRUE)
+summary(m1)
+parameters::parameters(m1)
+
+
+# Separate effects of Animal and Plant species richness on I.
+# 
+m2 <- lm(log(I) ~ log(P)+log(A), data = data1)
+equatiomatic::extract_eq(m2)
+equatiomatic::extract_eq(m2, use_coefs = TRUE)
+summary(m2)
+parameters::parameters(m2)
+
+```
+
+#### Summary stats, by biome
+
+```{r summ_data_biome}
+library(rstatix)
+
+# Summary statistics for dependent variable yield 
+ppp<- data1 %>% group_by(biome) %>% get_summary_stats(c(A,P,S,I,C), type="common")
+ppp_srt<- ppp |>
+            arrange(variable, biome)
+kable(ppp_srt)
+
+
+# Separate regressions for biomes
+# 
+# Tropical
+ppp<- data1 %>% dplyr::filter(biome== "t")
+m2<- lm(log(I) ~ log(S), data = ppp)
+equatiomatic::extract_eq(m2)
+equatiomatic::extract_eq(m2, use_coefs = TRUE)
+summary(m2)
+parameters::parameters(m2)
+
+# Non-tropical
+ppp<- data1 %>% dplyr::filter(biome== "nt")
+m3 <- lm(log(I) ~ log(S), data = ppp)
+equatiomatic::extract_eq(m3)
+equatiomatic::extract_eq(m3, use_coefs = TRUE)
+summary(m3)
+parameters::parameters(m3)
+
+```
+
+#### ANCOVA test
+
+```{r ancova_biome}
+kable(anova_test(data = data1, formula = log(I) ~ log(S) + biome, type = 3, detailed = TRUE)) 
+# Type 3 SS should be used in ANCOVA
+kable(Anova(aov(log(I) ~ biome * log(S), data = data1), type = 3))
+
+```
+
+#### Summary stats, by type, sp-based vs. ind-based
+
+```{r summ_data_type}
+library(rstatix)
+# summary statistics for dependent variable yield 
+ppp<- data1 %>% group_by(type) %>% get_summary_stats(c(A,P,S,I,C), type="common")
+ppp_srt<- ppp |>
+            arrange(variable, type)
+kable(ppp_srt)
+
+# Separate regressions for sp-based and ind-based networks
+# 
+# Species-based
+ppp<- data1 %>% dplyr::filter(type== "sp")
+m3<- lm(log(I) ~ log(S), data = ppp)
+equatiomatic::extract_eq(m3)
+equatiomatic::extract_eq(m3, use_coefs = TRUE)
+summary(m3)
+parameters::parameters(m3)
+
+# Individual-based
+ppp<- data1 %>% dplyr::filter(type== "ind")
+m4 <- lm(log(I) ~ log(S), data = ppp)
+equatiomatic::extract_eq(m4)
+equatiomatic::extract_eq(m4, use_coefs = TRUE)
+summary(m4)
+parameters::parameters(m4)
+
+```
+
+#### ANCOVA test
+
+```{r ancova_type}
+kable(anova_test(data = data1, formula = log(I) ~ log(S) + type + type * log(S), 
+                 type = 3, detailed = TRUE)) 
+# Type 3 SS should be used in ANCOVA
+kable(Anova(aov(log(I) ~ type * log(S), data = data1), type = 3))
+
+```
+
+# Interaction richness and functional traits
+
+Here I examine the functional characteristics of frugivore asemblages using two species,
+*Prunus mahaleb* [@Jordano.Schupp:2000] and *Euterpe edulis* [@Galetti.etal:2013:S].
+First, I examine how variation in functional traits of frugivore species and the resulting
+interaction effectiveness generate gradients of interaction outcomes ranging from purely
+mutualistic to purely antagonistic effects on fitness. Second, I show how the functional
+diversity increases as the species richness of the frugivore assemblage increases.
+
+Additional data for functional traits come from @Jordano.ea:2025:Ard,
+@Bovo.Ferraz.ea:2018, and @Galetti.etal:2013:S.
+
+### The distribution of functional interaction outcomes
+
+Here I show the frequency distributions of mutualistic outcomes for the two species.
+Individual frugivore species are ranked from those with 100% mutualistic interaction
+outcomes (no fruits dropped or seeds damaged during foraging) to those with purely
+antagonistic outcomes (100% of the feeding sequences ending in fruit dropping and/or seed
+predation).
+
+```{r input.gradient, ECHO=TRUE, warning=F, fig.width=12,fig.height=8}
+# here()
+mypath<- here(c("data/frug-mut_gradient.tsv"))
+data2 <- read.csv(mypath, sep="\t", dec=",", header=T, 
+				  comment.char = "#")
+
+data2 <- data2 %>% 
+	         arrange(sp_plant, desc(pct_mut))
+
+theme_set(theme_bw(base_size = 18))
+p <- ggplot(data2, aes(x = 1:nrow(data2), y = pct_mut,
+					  color = sp_plant)) +
+            	        geom_point(size= 4) +
+			geom_point(aes(color= sp_plant), size= 4.5, color= "black") +
+#			geom_point(aes(color= biome), size= 5) +
+			geom_point(aes(color= sp_plant), size= 3) +
+         #   geom_point(size=3.5) +
+		    labs(color = "Plant species") +
+	        scale_color_manual(values=c("#DEA525","#5681DC")) +
+            labs(x = "Index")
+
+p + geom_rug(sides = "rl", color = "black")
+
+```
+
+### Functional diversity as a function of assemblage species richness
+
+For the two species, I include data on frugivore trait variation, local abundance,
+visitation frequency to the trees, percent contribution to seed dispersal, measures of the
+quantitative component of seed dipersal effectiveness `SDE` (effectiveness per visit,
+visit frequency, and total effectiveness) and species-specific contribution to FD of the
+assemblage.
+
+```{r morpho}
+# Input functional datasets.
+# here()
+#---------------------------------------------------------------------
+## Euterpe edulis
+mypath<- here(c("data/funct.csv"))
+funct<- read.csv(mypath, sep=",", dec=".", header=T, 
+				  comment.char = "#")
+funct_euterpe<- funct %>% 
+					dplyr::filter(plant == 'Euterpe_edulis')  %>%
+                    dplyr::select(species,frug:gape,pct_mut:prop_disp_service)
+#					dplyr::select(species,frug:prop_disp_service)
+
+m_e<- as.matrix(funct_euterpe[,2:6]) 
+sp.names<- funct_euterpe[,1]
+rownames(m_e)<- sp.names
+
+a_e<- funct %>%               # Visitation (abund.)
+			dplyr::filter(plant == 'Euterpe_edulis')  %>%
+			dplyr::select(species,birds.km)
+a_e<- t(a_e[,2])
+colnames(a_e)<- sp.names
+
+# Observed FD indices.
+FDcomp_e <- functcomp(m_e, a_e)
+ex_e<-dbFD(m_e, a_e, w.abun=TRUE, calc.FRic=TRUE, calc.FDiv= TRUE,
+           corr= "cailliez", messages= TRUE)
+
+#---------------------------------------------------------------------
+# Prunus mahaleb
+mypath<- here(c("data/funct.csv"))
+funct <- read.csv(mypath, sep=",", dec=".", header=T, 
+				  comment.char = "#")
+funct_prunus<- funct %>% 
+					dplyr::filter(plant == 'Prunus_mahaleb')  %>%
+                    dplyr::select(species,frug:gape,pct_mut:prop_disp_service)
+#					dplyr::select(species,frug:prop_disp_service)
+m_p<-as.matrix(funct_prunus[,2:6])
+sp.names<- funct_prunus[,1]
+
+rownames(m_p)<- sp.names
+
+a_p<- funct %>%               # Visitation (abund.)
+			dplyr::filter(plant == 'Prunus_mahaleb')  %>%
+			dplyr::select(species,birds.km)
+sp.names<- a_p[,1]
+a_p<- t(a_p[,2])
+colnames(a_p)<- sp.names
+
+# Observed FD indices.
+FDcomp_p <- functcomp(m_p, a_p)
+ex_p<- dbFD(m_p, a_p, w.abun=TRUE, calc.FRic=TRUE, calc.FDiv= TRUE,
+           corr= "cailliez", messages = TRUE)
+
+```
+
+Here I create simulated assemblages of increasing species richness, between 5 species and
+the total species number in each assemblage. For each species richness value I get the
+mean and 1se values for the `FD` indexes. Each assemblage of 5, 6, 7, ... $S$ species is
+generated by bootstrapping (without replacement) the original trait-data matrix.
+
+### Bootstrap `FD` indices-*Euterpe edulis*
+
+```{r boot_euterpe, message=F, warning=F, class.message= F}
+# Install and load the boot package
+library(boot)
+
+# Create datasets of increasing no. species.
+# Create a list to hold the samples.
+# This gets as many samples as species, in 1 sp steps. With
+# replacement. Loop this for N= 1000.
+#
+# This filters the abundance dataset so that the species included 
+# in the abund data are the same as those in the morpho-boot data.
+# Filter rows in a_e where species matches any species name in the
+# boot-sample.
+
+ta_e<- as.data.frame(t(a_e)) # Transposed abundance data to get 
+                           # the spp names.
+colnames(ta_e)<- c("abund")
+
+# Initialize an empty data frame
+dfe <- data.frame(run= integer(), i= integer(), 
+				  FRic = numeric(), FEve = numeric(), 
+				  FDis = numeric(),
+				  RaoQ = numeric(), FDiv = numeric())
+for (run in 1:10) {
+	# Loop to create assemblages along a sequence of increasing
+	# species richness. From 3 spp to the actual species richness
+	# in the assemblage.
+	for (i in 5:dim(m_p)[1]) {
+		boot_sample<- lapply(1:dim(m_e)[1], function(i) {
+		m_e[sample(nrow(m_e), i, replace = FALSE), ] })
+	}
+	# For each richness value, estimate FD indices. 
+	for (i in 5:dim(m_p)[1])   {
+			thesample= boot_sample[[i]]
+			thesample.srt <- thesample[order(rownames(thesample)), ]
+			filtered_a_e <- ta_e %>%     # Filtered abundances
+				dplyr::filter(row.names(ta_e) %in% 
+							  	row.names(boot_sample[[i]]))
+			filtered_a_e.srt<- 
+				t(filtered_a_e[order(rownames(filtered_a_e)), ])
+			colnames(filtered_a_e.srt)<- 
+				row.names(thesample.srt)
+			z<- dbFD(thesample.srt, filtered_a_e.srt, 
+					 w.abun=TRUE, calc.FRic=TRUE, 
+					 calc.FDiv= TRUE, corr= "cailliez", messages = FALSE)
+	 # Append indeces values for i and runs.
+			dfe <- rbind(dfe,c(run,i,z$FRic,z$FEve,z$FDis,z$RaoQ,z$FDiv))
+	}
+}
+	colnames(dfe)<- c("run","i","FRic","FEve","FDis","RaoQ","FDiv")
+
+#---------------------------------------------------------------------
+# Calculate mean FD values scored by no. species, ignoring NA values
+mean_by_no.sp_e <- dfe %>%
+  dplyr::group_by(i) %>%
+  dplyr::summarise(
+  	m_FRic= mean(FRic, na.rm = TRUE),
+  	se_FRic= sd(FRic, na.rm = TRUE) / sqrt(n()),
+  	m_FEve= mean(FEve, na.rm = TRUE),
+  	se_FEve= sd(FEve, na.rm = TRUE) / sqrt(n()),
+    m_FDis= mean(FDis, na.rm = TRUE),
+  	se_FDis= sd(FDis, na.rm = TRUE) / sqrt(n()),
+    m_RaoQ= mean(RaoQ, na.rm = TRUE),
+  	se_RaoQ= sd(RaoQ, na.rm = TRUE) / sqrt(n()),
+    m_FDiv= mean(FDiv, na.rm = TRUE),
+	se_FDiv= sd(FDiv, na.rm = TRUE) / sqrt(n())
+  )
+#-------------------------------------------------------------------
+# FRic
+theme_set(theme_bw(base_size = 14))
+p1<- ggplot(mean_by_no.sp_e, aes(x = i, y = m_FRic)) +
+	geom_smooth(method = "loess", se = TRUE, 
+			alpha= 0.3, color= "steelblue", fill = "#757171") +
+	geom_point(color = "black", fill = "#DEA525", size=3, shape = 21, stroke = 0.5) +
+	labs(title = "Euterpe edulis FRic", 
+		        x = "No. species", 
+  	            y = "Functional richness (FRic)") 
+# FDis
+theme_set(theme_bw(base_size = 14))
+p2<- ggplot(mean_by_no.sp_e, aes(x = i, y = m_FDis)) +
+	geom_smooth(method = "loess", se = TRUE, 
+			alpha= 0.3, color= "steelblue", fill = "#757171") +
+	geom_point(color = "black", fill = "#DEA525", size=3, shape = 21, stroke = 0.5) +
+	labs(title = "Euterpe edulis FDis", 
+		        x = "No. species", 
+  	            y = "Functional dispersion (FDis)") 
+
+# grid.arrange(p1, p2, ncol= 2)
+
+```
+
+### Bootstrap `FD` indices-*Prunus mahaleb*
+
+```{r boot_prunus, message=F, warning=F, class.message=F, comment=F}
+# Install and load the boot package
+library(boot)
+
+# Create datasets of increasing no. species.
+# Create a list to hold the samples.
+# This gets as many samples as species, in 1 sp steps. With
+# replacement. Loop this for N= 1000.
+#
+# This filters the abundance dataset so that the species included 
+# in the abund data are the same as those in the morpho-boot data.
+# Filter rows in a_e where species matches any species name in the
+# boot-sample.
+
+ta_p<- as.data.frame(t(a_p)) # Transposed abundance data to get 
+                             # the spp names.
+colnames(ta_p)<- c("abund")
+
+# Initialize an empty data frame
+dfp <- data.frame(run= integer(), i= integer(), 
+				  FRic = numeric(), FEve = numeric(), 
+				  FDis = numeric(),
+				  RaoQ = numeric(), FDiv = numeric())
+for (run in 1:10) {
+	# Loop to create assemblages along a sequence of increasing
+	# species richness. From 3 spp to the actual species richness
+	# in the assemblage.
+	for (i in 5:dim(m_p)[1]) {
+		boot_sample<- lapply(1:dim(m_p)[1], function(i) {
+		m_p[sample(nrow(m_p), i, replace = FALSE), ] })
+	#}
+	# For each richness value, estimate FD indices. 
+	#	for (i in 3:dim(m_p)[1]   {
+			thesample= boot_sample[[i]]
+			thesample.srt <- thesample[order(rownames(thesample)), ]
+			filtered_a_p <- ta_p %>%     # Filtered abundances
+				dplyr::filter(row.names(ta_p) %in% 
+							  	row.names(boot_sample[[i]]))
+			filtered_a_p.srt<- 
+				t(filtered_a_p[order(rownames(filtered_a_p)), ])
+			colnames(filtered_a_p.srt)<- 
+				row.names(thesample.srt)
+			z<- dbFD(thesample.srt, filtered_a_p.srt, 
+					 w.abun=TRUE, calc.FRic=TRUE, 
+					 calc.FDiv= TRUE, corr= "cailliez", messages = FALSE)
+	 # Append indeces values for i and runs.
+			dfp <- rbind(dfp,c(run,i,z$FRic,z$FEve,z$FDis,z$RaoQ,z$FDiv))
+		}
+}
+	colnames(dfp)<- c("run","i","FRic","FEve","FDis","RaoQ","FDiv")
+
+#---------------------------------------------------------------------
+# Calculate mean FD values scored by no. species, ignoring NA values
+mean_by_no.sp_p <- dfp %>%
+  dplyr::group_by(i) %>%
+  dplyr::summarise(
+  	m_FRic= mean(FRic, na.rm = TRUE),
+  	se_FRic= sd(FRic, na.rm = TRUE) / sqrt(n()),
+  	m_FEve= mean(FEve, na.rm = TRUE),
+  	se_FEve= sd(FEve, na.rm = TRUE) / sqrt(n()),
+    m_FDis= mean(FDis, na.rm = TRUE),
+  	se_FDis= sd(FDis, na.rm = TRUE) / sqrt(n()),
+    m_RaoQ= mean(RaoQ, na.rm = TRUE),
+  	se_RaoQ= sd(RaoQ, na.rm = TRUE) / sqrt(n()),
+    m_FDiv= mean(FDiv, na.rm = TRUE),
+	se_FDiv= sd(FDiv, na.rm = TRUE) / sqrt(n())
+  )
+#---------------------------------------------------------------------
+# FRic
+theme_set(theme_bw(base_size = 14))
+p3<- ggplot(mean_by_no.sp_p, aes(x = i, y = m_FRic)) +
+	geom_smooth(method = "loess", se = TRUE, 
+			alpha= 0.3, color= "steelblue", fill = "#757171") +
+	geom_point(color = "black", fill = "#5681DC", size=3, shape = 21, stroke = 0.5) +
+	labs(title = "Prunus mahaleb FRic", x = "No. species", 
+  			 y = "Functional richness (FRic)") 
+# FDis
+theme_set(theme_bw(base_size = 14))
+p4<- ggplot(mean_by_no.sp_p, aes(x = i, y = m_FDis)) +
+	geom_smooth(method = "loess", se = TRUE, 
+			alpha= 0.3, color= "steelblue", fill = "#757171") +
+	geom_point(color = "black", fill = "#5681DC", size=3, shape = 21, stroke = 0.5) +
+	labs(title = "Prunus mahaleb FDis", x = "No. species", 
+  			 y = "Functional dispersion (FDis)") 
+# grid.arrange(p3, p4, ncol= 2)
+# 
+# All plots of simulated assemblages. 
+grid.arrange(p1, p2, p3, p4, nrow= 2, ncol= 2)
+
+```
+
+### Summary of `FD` indices, compared to simulated-assemblage values
+
+```{r FD_summary}
+# Table of FD results.
+# Observed FD values.
+pp<- as.data.frame(t(unlist(ex_e)))
+obs_e<- pp %>% 
+	dplyr::select(FRic,FEve,FDis,RaoQ,FDiv)
+#---------------------------------------------------------------------
+pp<- as.data.frame(t(unlist(ex_p)))
+obs_p<- pp %>% 
+	dplyr::select(FRic,FEve,FDis,RaoQ,FDiv)
+
+obs_FD<- rbind(obs_e, obs_p)
+obs_FD <- obs_FD %>%
+  mutate(species = c("Euterpe edulis", "Prunus mahaleb")) %>%
+  select(species, everything())
+
+# Summary of simulated FD indices for the two species.
+FD_by_spp<- rbind(mean_by_no.sp_e[dim(m_e)[1]-6,],
+                  mean_by_no.sp_p[dim(m_p)[1]-6,])
+
+FD_by_spp <- FD_by_spp %>%
+  mutate(species = c("Euterpe edulis", "Prunus mahaleb")) %>%
+  select(species, everything())
+
+kable(FD_by_spp)
+
+```
+
+```{r MF1, echo=FALSE, include= FALSE, eval=FALSE}
+# m_e<-funct_euterpe %>% 
+# 					dplyr::filter(plant == 'Euterpe_edulis')  %>%
+# 					dplyr::select(species,frug:pct_mut)
+# funct_norm_e<- m_e %>%
+# 	      mutate(plotID="EUTEDU")
+# funct_norm_e<- function_normalization(data = m_e, fun_cols = 2:5, 
+# 					   negative = NULL,
+# 					   by_group = NULL)
+# funct_norm_e<- funct_norm_e %>%
+# 	      mutate(plotID=species)
+# 
+# a_e<- funct_euterpe %>%               # Visitation (abund.)
+# 					dplyr::filter(plant == 'Euterpe_edulis')  %>%
+# 					dplyr::select(species,vis.10h)
+# colnames(a_e)<- c("species","abundance")
+# a_e<- a_e %>%
+# 	      mutate(plotID=species)
+# 
+# MF1_single(func_data = funct_norm_e[2:5], weight = 1,
+# species_data = a_e)
+
+```
+
+### Correlation analysis for FD values
+
+Here I examine the correlates of trait variables with species-specific contributions to
+FD.
+
+```{r corr_plots, eval= TRUE}
+#---------------------------------------------------------------------
+# Correlation plots.
+ corr<- cor(log(funct[,c(4:13)]+1), use = "pairwise")
+# pmat <- cor_pmat(corr)
+ corr1 <- cor(log(funct_euterpe[,c(2:8)]+1))
+ corr2 <- cor(log(funct_prunus[,c(2:8)]+1))
+# pmat1<- cor_pmat(corr1)
+# pmat2<- cor_pmat(corr2)
+
+
+# Two species pooled.
+kbl(corr) %>%
+  kable_styling(bootstrap_options = "striped", 
+                font_size = 6, full_width = T)
+
+# Euterpe
+kbl(corr1) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+
+# Prunus
+kbl(corr2) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+
+# Two species pooled
+ ggcorrplot(corr,
+           hc.order = F,
+   		  # p.mat = pmat,
+           type = "lower",
+   		   insig = "pch",
+   		   digits= 3,
+           lab = TRUE, lab_size= 3) + ggtitle("Two species")
+
+#---------------------------------------------------------------------
+# Add correlation coefficients
+  theme_set(theme_bw(base_size = 12))
+  p1<- ggcorrplot(corr1,
+           hc.order = F,
+  		  # p.mat = pmat1,
+           type = "lower",
+  		   insig = "pch",
+  		   digits= 3,
+           lab = TRUE, lab_size= 2) + ggtitle("Euterpe edulis")
+  p2<- ggcorrplot(corr2,
+           hc.order = F,
+  		 #  p.mat = pmat2,
+  		   insig = "pch",
+           type = "lower",
+           digits= 3,
+           lab = TRUE, lab_size= 2) + ggtitle("Prunus mahaleb")
+  grid.arrange(p1, p2, nrow = 2)
+
+```
+
+### FD and SDE
+
+Here I examine the relationships between FD and seed dispersal effectiveness (SDE).
+
+```{r SDE}
+theme_set(theme_bw(base_size = 14))
+p1<- ggplot(funct, aes(x= contrib_FD+1, y= eff_total+1, color=plant)) + 
+	        geom_point(size= 4) +
+			geom_point(aes(color= plant), size= 5, color= "black") +
+#			geom_point(aes(color= plant), size= 5) +
+			geom_point(aes(color= plant), size= 3) +
+  	        scale_x_continuous(trans='log10') +
+	        scale_y_continuous(trans='log10') +
+	        scale_color_manual(values=c("#5681DC", "#DEA525")) +
+		    ggplot2::labs(color = "Species") +
+            ggplot2::labs(x = TeX(r"(Species-specific contribution to \textit{FD})"),
+  	         y = TeX(r"(Seed dispersal effectivenness (quantitative), \textit{SDE_{Q}})")) 
+p1
+
+# Correlations for two species
+cor.test(log(funct$contrib_FD+1),log(funct$eff_total+1))
+
+# Euterpe edulis
+pp<- funct %>%
+    dplyr::filter(plant== "Euterpe_edulis")
+    cor.test(log(pp$contrib_FD+1),log(pp$eff_total+1))
+
+
+# Prunus mahaleb
+pp<- funct %>%
+    dplyr::filter(plant== "Prunus_mahaleb")
+    cor.test(log(pp$contrib_FD+1),log(pp$eff_total+1))
+
+```
+
+------------------------------------------------------------------------------------------
+
+# Multilayer analysis
+
+|                                                                                          |
+|:-----------------------------------------------------------------------------------------|
+| \## NOTE:                                                                                |
+| Code for multilayer analysis with the `muxViz` package is provided in a separate folder. |
+| It requires specific installation of external binaries. I've run it on `R` version       |
+| 4.0, since several required packages have not recent versions.                           |
+
+{{< pagebreak >}}
+
+------------------------------------------------------------------------------------------
+
+# `R` packages used
+
+```{r grateful}
+#| echo: FALSE
+#| message: FALSE
+#| class.message: FALSE,
+#| class.warning: FALSE,
+#| warning: FALSE
+
+grateful::cite_packages(pkgs = "Session", 
+                        output = "paragraph", 
+                        out.dir = ".", 
+                        out.format= "pdf")
+
+```
+
+{{< pagebreak >}}
+
+Session info
+
+```{r session, warning=FALSE, error=FALSE}
+sessionInfo()
+
+```
+
+{{< pagebreak >}}
+
+# References
+
+\normalsize
+
+::: {#refs-main}
+:::
+
+# Software
+
+\normalsize
+
+::: {#refs-software}
+:::

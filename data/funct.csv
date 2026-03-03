@@ -1,0 +1,69 @@
+# Functional data. Prunus mahaleb. Euterpe edulis.
+# Data from Jordano and Schupp 2000. Jordano et al. 2025. and Galetti et al. 
+# 2013. Additional morphological data for Euterope edulis from Bovo et al. 2018. 
+# For Prunus mahaleb. abundance data derived from N= 43 transect censuses of 
+# total length 66.4 km and totalling 4218 birds recorded. For Euterpe edulis.  
+# abundance data refer to IPA from transect censuses in non-defaunated areas 
+# of SE Brazil Mata Atlantica.
+# Visitation data (no. vists per 10h) were obtained by direct focal watches at 
+# fruiting trees for 336 h (16 tree-days per two seasons) in Prunus mahaleb and 
+# 2326 h in Euterpe edulis.
+# contrib_FD: species-specific contribution to FD. the product of the species' 
+# visitation rate (vis.10h) and total FD value for the plant. divided by the 
+# total  number of visits of all frugivore species (sum(vis.10h)).
+#
+species,plant,type,frug,bmass,gape,vis.10h,pct_mut,birds.km,contrib_FD,eff_per_vis,eff_total,prop_disp_service
+Columba palumbus,Prunus_mahaleb,SD,0.400,490.00,13.00,0.010,100.00,0.4669,0.0990339,22.4,0.224,0.00147
+Corvus corone,Prunus_mahaleb,SD,0.497,520.00,15.00,0.005,100.00,0.3916,1.3624005,12.0,0.060,0.00039
+Dendrocopos major,Prunus_mahaleb,SD,0.350,73.53,13.78,0.250,94.44,0.1657,0.0351465,5.0,1.250,0.00820
+Erithacus rubecula,Prunus_mahaleb,SD,0.659,15.42,7.68,3.500,100.00,3.1476,0.6676354,1.9,6.650,0.04363
+Ficedula hypoleuca,Prunus_mahaleb,SD,0.344,13.64,7.69,0.005,100.00,0.0452,0.0095873,1.0,0.005,0.00003
+Muscicapa striata,Prunus_mahaleb,SD,0.147,16.48,8.77,0.005,100.00,0.0602,0.0127690,1.0,0.005,0.00003
+Phoenicurus ochruros,Prunus_mahaleb,SD,0.500,16.36,8.40,10.850,81.93,12.6958,2.6928981,1.8,19.530,0.45563
+Phoenicurus phoenicurus,Prunus_mahaleb,SD,0.482,15.84,7.83,1.470,96.43,2.0030,0.4248551,2.4,3.528,0.02231
+Sylvia atricapilla,Prunus_mahaleb,SD,0.861,17.92,7.63,0.640,99.30,0.7982,0.1693057,3.8,2.432,0.01516
+Sylvia borin,Prunus_mahaleb,SD,0.924,18.95,7.80,0.110,100.00,0.1054,0.0223563,4.0,0.440,0.00289
+Curruca cantillans,Prunus_mahaleb,SD,0.683,11.48,5.62,0.610,53.57,0.1958,0.0415310,2.9,1.769,0.00618
+Curruca communis,Prunus_mahaleb,SD,0.962,16.90,7.34,2.630,81.37,2.8012,0.5941608,2.8,7.364,0.03862
+Curruca conspicillata,Prunus_mahaleb,SD,0.450,9.50,5.70,0.005,69.40,0.0151,0.0032029,2.1,0.011,0.00001
+Curruca melanocephala,Prunus_mahaleb,SD,0.739,11.54,6.43,0.005,75.00,0.4669,0.0990339,2.0,0.010,0.00005
+Turdus merula,Prunus_mahaleb,SD,0.889,86.90,13.47,2.820,92.71,5.6024,1.1883215,6.5,18.330,0.11682
+Turdus viscivorus,Prunus_mahaleb,SD,0.940,109.20,12.70,9.230,99.80,9.0964,1.9294316,9.7,89.531,0.58740
+Garrulus glandarius,Prunus_mahaleb,PCSD,0.400,160.38,19.32,1.760,12.14,1.0693,0.2268085,6.9,12.144,0.01103
+Periparus ater,Prunus_mahaleb,PCSD,0.051,8.52,5.31,4.670,0.00,5.0904,1.0797215,1.9,8.873,0.00639
+Sitta europaea,Prunus_mahaleb,PCSD,0.036,19.56,8.52,0.480,6.67,0.6627,0.1405649,2.5,1.200,0.00315
+Fringilla coelebs,Prunus_mahaleb,PC,0.036,19.57,7.06,16.720,0.00,9.9096,2.1019190,3.4,56.848,0.02264
+Cyanistes caeruleus,Prunus_mahaleb,PC,0.409,9.75,5.05,2.510,0.00,1.5512,0.3290241,2.1,5.271,0.00000
+Lophophanes cristatus,Prunus_mahaleb,PC,0.105,10.52,6.00,0.240,0.00,0.5572,0.1181873,2.0,0.480,0.00000
+Parus major,Prunus_mahaleb,PC,0.587,17.22,6.93,0.650,0.00,0.7831,0.1661028,2.0,1.300,0.00000
+Serinus citrinella,Prunus_mahaleb,PC,0.590,12.00,6.02,0.005,0.00,0.1355,0.0287408,6.5,0.033,0.00000
+Serinus serinus,Prunus_mahaleb,PC,0.587,11.24,5.98,0.005,0.00,0.4518,0.0958310,3.0,0.015,0.00000
+Coccothraustes coccothraustes,Prunus_mahaleb,SP,0.970,45.99,16.46,0.005,0.00,0.0602,0.0127690,0.0,0.000,0.00000
+Penelope superciliaris,Euterpe_edulis,SD,0.900,850.00,19.50,0.120,71.00,0.0222,0.0772352,8.3,0.992,0.03127
+Penelope obscura,Euterpe_edulis,SD,0.900,960.00,23.40,0.120,93.00,0.0080,0.0278325,8.3,0.992,0.03127
+Aburria jacutinga,Euterpe_edulis,SD,0.900,1250.00,24.00,0.180,100.00,0.0020,0.0069581,30.1,5.416,0.17067
+Baryphthengus ruficapillus,Euterpe_edulis,SD,0.200,175.00,17.20,0.600,100.00,0.1032,0.3590391,0.8,0.498,0.02047
+Trogon viridis,Euterpe_edulis,SD,0.600,87.60,19.60,1.220,50.00,0.2396,0.8335831,0.6,0.671,0.02114
+Trogon surrucura,Euterpe_edulis,SD,0.200,73.30,18.00,0.005,50.00,0.0001,0.0003479,NA,NA,NA
+Trogon rufus,Euterpe_edulis,SD,0.200,52.80,17.80,0.005,50.00,0.0780,0.2713668,NA,NA,NA
+Ramphastos dicolorus,Euterpe_edulis,SD,0.900,400.00,30.70,0.140,98.00,0.0636,0.2212683,4.4,0.612,0.01928
+Ramphastos vitellinus,Euterpe_edulis,SD,0.900,361.50,31.00,0.340,95.00,0.0920,0.3200737,6.4,2.190,0.06900
+Ramphastos toco,Euterpe_edulis,SD,0.600,675.00,32.00,0.005,96.00,0.0001,0.0003479,NA,NA,NA
+Selenidera maculirostris,Euterpe_edulis,SD,0.900,160.00,25.20,0.510,96.00,0.0440,0.1530787,6.0,3.070,0.09675
+Pteroglossus aracari,Euterpe_edulis,SD,0.900,232.00,29.10,0.005,100.00,0.0020,0.0069581,NA,NA,NA
+Pteroglossus bailloni,Euterpe_edulis,SD,0.900,139.00,23.60,0.450,100.00,0.0005,0.0017395,3.6,1.620,0.05105
+Pitangus sulphuratus,Euterpe_edulis,SD,0.200,61.00,15.50,0.050,85.00,0.3008,1.0465017,1.5,0.075,0.00474
+Myiodynastes maculatus,Euterpe_edulis,SD,0.200,45.90,17.00,0.240,100.00,0.0500,0.1739531,1.0,0.240,0.00756
+Megarhynchus pitangua,Euterpe_edulis,SD,0.200,66.00,18.00,0.005,100.00,0.0001,0.0003479,NA,NA,NA
+Tityra cayana,Euterpe_edulis,SD,0.600,68.10,18.70,0.040,80.00,0.0001,0.0003479,2.0,0.080,0.00252
+Procnias nudicollis,Euterpe_edulis,SD,0.900,174.00,24.50,0.420,98.00,0.2140,0.7445192,5.4,2.272,0.07060
+Pyroderus scutatus,Euterpe_edulis,SD,0.900,357.00,26.70,0.120,100.00,0.0780,0.2713668,2.2,0.264,0.00826
+Lipaugus lanioides,Euterpe_edulis,SD,0.900,94.80,18.70,0.830,100.00,0.0076,0.0264409,2.1,1.743,0.05193
+Carpornis cucullata,Euterpe_edulis,SD,0.900,75.70,14.40,0.300,71.00,0.0880,0.3061574,2.1,0.636,0.02004
+Carpornis melanocephala,Euterpe_edulis,SD,0.900,64.20,16.90,0.300,71.00,0.1100,0.3826968,2.1,0.636,0.02004
+Turdus leucomelas,Euterpe_edulis,SD,0.600,68.60,11.90,1.280,73.00,0.0916,0.3186820,1.2,1.549,0.04881
+Turdus subalaris,Euterpe_edulis,SD,0.600,49.50,12.00,0.110,100.00,0.0028,0.0097414,3.0,0.330,0.01040
+Turdus amaurochalinus,Euterpe_edulis,SD,0.600,63.10,11.40,1.370,82.00,0.2084,0.7250364,0.9,1.288,0.04058
+Turdus flavipes,Euterpe_edulis,SD,0.600,60.00,12.00,2.690,76.00,0.3958,1.3770125,1.1,2.878,0.09070
+Turdus albicollis,Euterpe_edulis,SD,0.600,54.10,11.20,1.570,71.00,0.9352,3.2536183,1.4,2.229,0.07025
+Turdus rufiventris,Euterpe_edulis,SD,0.600,69.50,12.00,1.200,86.00,0.0120,0.0417487,1.2,1.452,0.04276

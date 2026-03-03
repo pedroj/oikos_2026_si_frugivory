@@ -1,0 +1,77 @@
+# Dataset Prunus mahaleb individual variation in frugivorous animals visitation.
+# Locality: Nava de las Correhuelas, Parque Natural de las Sierras de Cazorla, Segura y Las Villas, Jaén, Spain.
+# Observations come from 599,6 h of direct watches at focal plants during 1988 (297,6 h) and 1989 (302,0 h).
+# This is the merged matrix for 1988-1989 data pooled. 
+# Added dummy trees N01-N22 to get a cananonical square matrix for multiplex- just ignore them for normal analysis.
+#
+# Columns: 
+# First cloumn of each matrix is the tree code (row.names), with header omitted to directly import as adjaency matrix.
+# Matrix entries are the number of visits recorded druing the corresding sampling time.
+# total: total number of viusits recorded for all species.
+# pDisp: proportion of total visits by legitimate seed dispersers.
+# pNoDisp: proportion of total visits by non-legitimate seed dispersers.
+# htot: toital number of sampling hours for each tree, data from 1988 and 1989 combined.
+#
+# Data: POOLED MATRIX (1988 and 1989 combined).
+    Columba.palumbus	Garrulus.glandarius	Turdus.merula	Phoenicurus.ochruros	Erithacus.rubecula	Parus.ater	Fringilla.coelebs	Sylvia.conspicillata	Sylvia.atricapilla	Turdus.viscivorus	Sylvia.communis	Sylvia.melanocephala	Sylvia.borin	Parus.caeruleus	Phoenicurus.phoenicurus	Parus.cristatus	Parus.major	Sylvia.cantillans	Sitta.europaea	Dendrocopos.major	Unidentified	total	pDisp	pNoDisp	htot
+1933	0	4	6	20	5	20	48	2	7	18	7	2	3	2	2	0	3	0	0	0	0	149	0,5101	0,4899	31,8
+1931	0	2	1	64	3	10	51	2	2	2	11	0	0	2	13	3	4	1	0	0	1	171	0,5906	0,4094	31,8
+1932	0	2	3	33	0	21	34	0	0	1	2	1	0	0	6	0	3	1	0	0	0	107	0,4579	0,5421	31,8
+1934	0	1	0	8	0	8	6	0	0	0	0	0	0	0	2	2	0	0	0	0	0	27	0,4074	0,5926	28,3
+1936	0	0	2	5	2	0	1	0	0	0	3	4	0	0	0	0	0	1	0	0	0	18	0,9444	0,0556	32,2
+1937	0	0	20	20	6	4	15	0	1	0	25	3	0	12	7	0	0	3	0	0	0	116	0,7328	0,2672	30,5
+1938	0	0	8	13	12	4	10	0	3	1	27	7	0	8	5	0	4	4	0	0	0	106	0,7547	0,2453	30,5
+1939	0	0	6	4	16	5	31	0	1	0	6	1	0	5	0	1	0	1	1	0	0	78	0,4487	0,5513	20,8
+1940	0	0	4	14	26	3	39	0	6	0	3	4	0	7	1	1	0	0	0	0	0	108	0,5370	0,4630	30,5
+1921	1	2	3	65	0	0	28	0	1	0	3	0	0	2	42	0	0	0	0	0	2	147	0,7959	0,2041	27,5
+1823	0	20	11	27	15	59	147	0	2	168	0	0	0	25	3	0	7	0	9	7	1	500	0,5060	0,4940	16,3
+1824	0	1	16	31	9	6	37	0	1	66	0	0	0	8	3	0	0	0	0	0	2	178	0,7135	0,2865	16,6
+1820	0	7	1	26	1	2	39	0	0	10	0	0	0	0	1	0	0	0	0	0	0	87	0,5287	0,4713	13,7
+1825	0	4	1	28	3	10	87	0	0	13	0	0	0	1	2	2	1	0	5	0	0	157	0,3248	0,6752	20,5
+1929	0	0	0	9	0	0	1	0	0	0	5	0	0	0	2	0	0	0	0	0	0	17	0,9412	0,0588	27,5
+8801	0	6	4	134	14	21	47	0	0	24	32	0	1	33	13	1	4	27	0	0	0	361	0,7064	0,2936	52,1
+8808	0	8	5	8	7	33	24	0	1	34	5	0	1	2	3	1	0	2	2	0	0	136	0,5441	0,4559	52,6
+8814	1	4	25	32	78	5	3	0	0	1	8	0	1	1	0	0	0	1	1	0	0	161	0,9379	0,0621	52,0
+8865	0	0	5	47	3	41	14	0	0	9	13	0	2	24	7	0	0	1	7	0	0	173	0,5029	0,4971	52,6
+# Data: 1988
+    Columba.palumbus	Garrulus.glandarius	Turdus.merula	Phoenicurus.ochruros	Erithacus.rubecula	Parus.ater	Fringilla.coelebs	Sylvia.conspicillata	Sylvia.atricapilla	Turdus.viscivorus	Sylvia.communis	Sylvia.melanocephala	Sylvia.borin	Parus.caeruleus	Phoenicurus.phoenicurus	Parus.cristatus	Parus.major	Sylvia.cantillans	Sitta.europaea	Dendrocopos.major	Unidentified  total	pDisp	pNoDisp	h
+1933	0	4	6	10	5	13	42	2	7	18	3	2	3	2	1	0	0	0	0	0	0	118	0,5169	0,4831	17,7
+1931	0	2	1	26	3	6	44	2	2	2	4	0	0	0	1	3	0	0	0	0	1	96	0,4479	0,5521	17,7
+1932	0	1	3	7	0	17	31	0	0	1	2	0	0	0	0	0	1	0	0	0	0	63	0,2222	0,7778	17,7
+1934	0	0	0	3	0	7	4	0	0	0	0	0	0	0	0	2	0	0	0	0	0	16	0,1875	0,8125	13,7
+1936	0	0	1	3	2	0	1	0	0	0	2	3	0	0	0	0	0	1	0	0	0	13	0,9231	0,0769	14,2
+1937	0	0	9	3	6	1	11	0	0	0	15	1	0	4	1	0	0	2	0	0	0	53	0,6981	0,3019	16,0
+1938	0	0	4	10	7	2	5	0	2	1	12	1	0	2	0	0	2	2	0	0	0	50	0,7800	0,2200	16,0
+1939	0	0	6	2	5	3	20	0	0	0	6	0	0	1	0	0	0	0	0	0	0	43	0,4419	0,5581	6,3
+1940	0	0	4	8	6	1	23	0	1	0	3	1	0	0	0	0	0	0	0	0	0	47	0,4894	0,5106	16,0
+1921	0	0	2	26	0	0	17	0	0	0	1	0	0	0	3	0	0	0	0	0	2	49	0,6531	0,3469	11,5
+1823	0	8	5	16	3	1	20	0	2	10	0	0	0	1	1	0	0	0	0	0	1	67	0,6716	0,3284	5,9
+1824	0	0	8	12	1	2	8	0	1	4	0	0	0	3	0	0	0	0	0	0	2	39	0,6667	0,3333	5,9
+1820	0	3	1	21	1	2	39	0	0	10	0	0	0	0	0	0	0	0	0	0	0	77	0,4675	0,5325	3,7
+1825	0	2	1	14	0	6	81	0	0	6	0	0	0	0	1	2	1	0	2	0	0	116	0,2069	0,7931	11,5
+1929	0	0	0	7	0	0	1	0	0	0	4	0	0	0	0	0	0	0	0	0	0	12	0,9167	0,0833	16,5
+8801	0	0	0	30	7	10	15	0	0	0	12	0	0	8	0	0	1	9	0	0	0	92	0,6304	0,3696	26,9
+8808	0	1	5	6	5	18	20	0	1	32	5	0	1	0	0	0	0	2	2	0	0	98	0,5918	0,4082	26,8
+8814	1	0	14	23	53	4	2	0	0	0	2	0	0	0	0	0	0	0	0	0	0	99	0,9394	0,0606	26,8
+8865	0	0	1	45	0	24	9	0	0	1	13	0	1	8	2	0	0	1	5	0	0	110	0,5818	0,4182	26,8
+# Data: 1989
+    Columba.palumbus	Garrulus.glandarius	Turdus.merula	Phoenicurus.ochruros	Erithacus.rubecula	Parus.ater	Fringilla.coelebs	Sylvia.conspicillata	Sylvia.atricapilla	Turdus.viscivorus	Sylvia.communis	Sylvia.melanocephala	Sylvia.borin	Parus.caeruleus	Phoenicurus.phoenicurus	Parus.cristatus	Parus.major	Sylvia.cantillans	Sitta.europaea	Dendrocopos.major	Unidentified  total	pDisp	pNoDisp	h
+1933	0	0	0	10	0	7	6	0	0	0	4	0	0	0	1	0	3	0	0	0	0	31	0,4839	0,5161	14,1
+1931	0	0	0	38	0	4	7	0	0	0	7	0	0	2	12	0	4	1	0	0	0	75	0,7733	0,2267	14,1
+1932	0	1	0	26	0	4	3	0	0	0	0	1	0	0	6	0	2	1	0	0	0	44	0,7955	0,2045	14,1
+1934	0	1	0	5	0	1	2	0	0	0	0	0	0	0	2	0	0	0	0	0	0	11	0,7273	0,2727	14,6
+1936	0	0	1	2	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	5	1,0000	0,0000	18,0
+1937	0	0	11	17	0	3	4	0	1	0	10	2	0	8	6	0	0	1	0	0	0	63	0,7619	0,2381	14,5
+1938	0	0	4	3	5	2	5	0	1	0	15	6	0	6	5	0	2	2	0	0	0	56	0,7321	0,2679	14,5
+1939	0	0	0	2	11	2	11	0	1	0	0	1	0	4	0	1	0	1	1	0	0	35	0,4571	0,5429	14,5
+1940	0	0	0	6	20	2	16	0	5	0	0	3	0	7	1	1	0	0	0	0	0	61	0,5738	0,4262	14,5
+1921	1	2	1	39	0	0	11	0	1	0	2	0	0	2	39	0	0	0	0	0	0	97	0,4845	0,5155	16,0
+1823	0	12	6	11	12	58	127	0	0	158	0	0	0	24	2	0	7	0	9	7	0	433	0,4804	0,5196	10,4
+1824	0	1	8	19	8	4	29	0	0	62	0	0	0	5	3	0	0	0	0	0	0	139	0,7266	0,2734	10,7
+1820	0	4	0	5	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	10	0,9000	0,1000	10,0
+1825	0	2	0	14	3	4	6	0	0	7	0	0	0	1	1	0	0	0	3	0	0	41	0,8293	0,1707	9,0
+1929	0	0	0	2	0	0	0	0	0	0	1	0	0	0	2	0	0	0	0	0	0	5	1,0000	0,0000	11,0
+8801	0	6	4	104	7	11	32	0	0	24	20	0	1	25	13	1	3	18	0	0	0	269	0,7323	0,2677	25,2
+8808	0	7	0	2	2	15	4	0	0	2	0	0	0	2	3	1	0	0	0	0	0	38	0,4211	0,5789	25,8
+8814	0	4	11	9	25	1	1	0	0	1	6	0	1	1	0	0	0	1	1	0	0	62	0,9355	0,0645	25,2
+8865	0	0	4	2	3	17	5	0	0	8	0	0	1	16	5	0	0	0	2	0	0	63	0,3651	0,6349	25,8

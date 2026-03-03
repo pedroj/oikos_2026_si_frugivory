@@ -1,0 +1,281 @@
+# List of node names for modularity matrix with bipartite.
+                                            tuple
+1                                  Herbivory_1820
+2                                  Herbivory_1823
+3                                  Herbivory_1824
+4                                  Herbivory_1825
+5                                  Herbivory_1921
+6                                  Herbivory_1929
+7                                  Herbivory_1931
+8                                  Herbivory_1932
+9                                  Herbivory_1933
+10                                 Herbivory_1934
+11                                 Herbivory_1936
+12                                 Herbivory_1937
+13                                 Herbivory_1938
+14                                 Herbivory_1939
+15                                 Herbivory_1940
+16                                 Herbivory_8801
+17                                 Herbivory_8808
+18                                 Herbivory_8814
+19                                 Herbivory_8865
+20                     Herbivory_Aglaope.infausta
+21            Herbivory_Ancistrocerus.nigricornis
+22           Herbivory_Andrena.albopunctata.morio
+23                    Herbivory_Andrena.assimilis
+24                    Herbivory_Andrena.congruens
+25                        Herbivory_Andrena.fulva
+26        Herbivory_Andrena.synadelpha.nigroaenea
+27             Herbivory_Andrena.tibialis.corvina
+28                   Herbivory_Andrena.trimmerana
+29                       Herbivory_Apis.mellifera
+30                        Herbivory_Asilidae.n.i.
+31                  Herbivory_Bombus.pascuorum.q.
+32                 Herbivory_Bombus.pascuorum.wk.
+33                   Herbivory_Bombus.pratorum.m.
+34                  Herbivory_Bombus.pratorum.wk.
+35                 Herbivory_Bombus.terrestris.q.
+36                Herbivory_Bombus.terrestris.wk.
+37                 Herbivory_Calliphora.vomitoria
+38                     Herbivory_Cheilosia.glossa
+39                     Herbivory_Columba.palumbus
+40                  Herbivory_Criorhina.berberina
+41             Herbivory_Dasysyrphus.albostriatus
+42                    Herbivory_Dendrocopos.major
+43                         Herbivory_Diptera.n.i.
+44                       Herbivory_Empididae.n.i.
+45                 Herbivory_Eristalis.arbustorum
+46                   Herbivory_Eristalis.pratorum
+47                      Herbivory_Eristalis.tenax
+48                   Herbivory_Erithacus.rubecula
+49                    Herbivory_Fringilla.coelebs
+50                            Herbivory_Fungus.NI
+51                  Herbivory_Garrulus.glandarius
+52                         Herbivory_Gonia.ornata
+53               Herbivory_Halictus.quadricinctus
+54                   Herbivory_Halictus.scabiosae
+55                  Herbivory_Halictus.tridivisus
+56                       Herbivory_Hedya.pruniana
+57                   Herbivory_Hemaris.fuciformis
+58                       Herbivory_Hemaris.tityus
+59                Herbivory_Iphiclides.podalirius
+60               Herbivory_Lasioglossum.xanthopum
+61                   Herbivory_Mallota.fuciformis
+62              Herbivory_Megachile.centuncularis
+63                         Herbivory_Myzus.cerasi
+64                                   Herbivory_NI
+65                        Herbivory_Orthoptera.NI
+66                           Herbivory_Osmia.rufa
+67                           Herbivory_Parus.ater
+68                      Herbivory_Parus.caeruleus
+69                      Herbivory_Parus.cristatus
+70                          Herbivory_Parus.major
+71                 Herbivory_Phoenicurus.ochruros
+72              Herbivory_Phoenicurus.phoenicurus
+73                       Herbivory_Pollenia.rudis
+74       Herbivory_Psithyrus.vestalis.obenbergeri
+75                       Herbivory_Sitta.europaea
+76                     Herbivory_Sphecodes.gibbus
+77                   Herbivory_Sylvia.atricapilla
+78                         Herbivory_Sylvia.borin
+79                    Herbivory_Sylvia.cantillans
+80                      Herbivory_Sylvia.communis
+81                 Herbivory_Sylvia.conspicillata
+82                 Herbivory_Sylvia.melanocephala
+83                      Herbivory_Syrphus.ribessi
+84                  Herbivory_Syrphus.vitripennis
+85                    Herbivory_Tachina.corsicana
+86                   Herbivory_Taphrina.deformans
+87                        Herbivory_Turdus.merula
+88                    Herbivory_Turdus.viscivorus
+89                            Herbivory_Ungulates
+90                         Herbivory_Unidentified
+91                       Herbivory_Vanessa.cardui
+92                    Herbivory_Xylocopa.violacea
+93               Herbivory_Yponomeuta.mahalebella
+94                               Pollination_1820
+95                               Pollination_1823
+96                               Pollination_1824
+97                               Pollination_1825
+98                               Pollination_1921
+99                               Pollination_1929
+100                              Pollination_1931
+101                              Pollination_1932
+102                              Pollination_1933
+103                              Pollination_1934
+104                              Pollination_1936
+105                              Pollination_1937
+106                              Pollination_1938
+107                              Pollination_1939
+108                              Pollination_1940
+109                              Pollination_8801
+110                              Pollination_8808
+111                              Pollination_8814
+112                              Pollination_8865
+113                  Pollination_Aglaope.infausta
+114         Pollination_Ancistrocerus.nigricornis
+115        Pollination_Andrena.albopunctata.morio
+116                 Pollination_Andrena.assimilis
+117                 Pollination_Andrena.congruens
+118                     Pollination_Andrena.fulva
+119     Pollination_Andrena.synadelpha.nigroaenea
+120          Pollination_Andrena.tibialis.corvina
+121                Pollination_Andrena.trimmerana
+122                    Pollination_Apis.mellifera
+123                     Pollination_Asilidae.n.i.
+124               Pollination_Bombus.pascuorum.q.
+125              Pollination_Bombus.pascuorum.wk.
+126                Pollination_Bombus.pratorum.m.
+127               Pollination_Bombus.pratorum.wk.
+128              Pollination_Bombus.terrestris.q.
+129             Pollination_Bombus.terrestris.wk.
+130              Pollination_Calliphora.vomitoria
+131                  Pollination_Cheilosia.glossa
+132                  Pollination_Columba.palumbus
+133               Pollination_Criorhina.berberina
+134          Pollination_Dasysyrphus.albostriatus
+135                 Pollination_Dendrocopos.major
+136                      Pollination_Diptera.n.i.
+137                    Pollination_Empididae.n.i.
+138              Pollination_Eristalis.arbustorum
+139                Pollination_Eristalis.pratorum
+140                   Pollination_Eristalis.tenax
+141                Pollination_Erithacus.rubecula
+142                 Pollination_Fringilla.coelebs
+143                         Pollination_Fungus.NI
+144               Pollination_Garrulus.glandarius
+145                      Pollination_Gonia.ornata
+146            Pollination_Halictus.quadricinctus
+147                Pollination_Halictus.scabiosae
+148               Pollination_Halictus.tridivisus
+149                    Pollination_Hedya.pruniana
+150                Pollination_Hemaris.fuciformis
+151                    Pollination_Hemaris.tityus
+152             Pollination_Iphiclides.podalirius
+153            Pollination_Lasioglossum.xanthopum
+154                Pollination_Mallota.fuciformis
+155           Pollination_Megachile.centuncularis
+156                      Pollination_Myzus.cerasi
+157                                Pollination_NI
+158                     Pollination_Orthoptera.NI
+159                        Pollination_Osmia.rufa
+160                        Pollination_Parus.ater
+161                   Pollination_Parus.caeruleus
+162                   Pollination_Parus.cristatus
+163                       Pollination_Parus.major
+164              Pollination_Phoenicurus.ochruros
+165           Pollination_Phoenicurus.phoenicurus
+166                    Pollination_Pollenia.rudis
+167    Pollination_Psithyrus.vestalis.obenbergeri
+168                    Pollination_Sitta.europaea
+169                  Pollination_Sphecodes.gibbus
+170                Pollination_Sylvia.atricapilla
+171                      Pollination_Sylvia.borin
+172                 Pollination_Sylvia.cantillans
+173                   Pollination_Sylvia.communis
+174              Pollination_Sylvia.conspicillata
+175              Pollination_Sylvia.melanocephala
+176                   Pollination_Syrphus.ribessi
+177               Pollination_Syrphus.vitripennis
+178                 Pollination_Tachina.corsicana
+179                Pollination_Taphrina.deformans
+180                     Pollination_Turdus.merula
+181                 Pollination_Turdus.viscivorus
+182                         Pollination_Ungulates
+183                      Pollination_Unidentified
+184                    Pollination_Vanessa.cardui
+185                 Pollination_Xylocopa.violacea
+186            Pollination_Yponomeuta.mahalebella
+187                           Seed dispersal_1820
+188                           Seed dispersal_1823
+189                           Seed dispersal_1824
+190                           Seed dispersal_1825
+191                           Seed dispersal_1921
+192                           Seed dispersal_1929
+193                           Seed dispersal_1931
+194                           Seed dispersal_1932
+195                           Seed dispersal_1933
+196                           Seed dispersal_1934
+197                           Seed dispersal_1936
+198                           Seed dispersal_1937
+199                           Seed dispersal_1938
+200                           Seed dispersal_1939
+201                           Seed dispersal_1940
+202                           Seed dispersal_8801
+203                           Seed dispersal_8808
+204                           Seed dispersal_8814
+205                           Seed dispersal_8865
+206               Seed dispersal_Aglaope.infausta
+207      Seed dispersal_Ancistrocerus.nigricornis
+208     Seed dispersal_Andrena.albopunctata.morio
+209              Seed dispersal_Andrena.assimilis
+210              Seed dispersal_Andrena.congruens
+211                  Seed dispersal_Andrena.fulva
+212  Seed dispersal_Andrena.synadelpha.nigroaenea
+213       Seed dispersal_Andrena.tibialis.corvina
+214             Seed dispersal_Andrena.trimmerana
+215                 Seed dispersal_Apis.mellifera
+216                  Seed dispersal_Asilidae.n.i.
+217            Seed dispersal_Bombus.pascuorum.q.
+218           Seed dispersal_Bombus.pascuorum.wk.
+219             Seed dispersal_Bombus.pratorum.m.
+220            Seed dispersal_Bombus.pratorum.wk.
+221           Seed dispersal_Bombus.terrestris.q.
+222          Seed dispersal_Bombus.terrestris.wk.
+223           Seed dispersal_Calliphora.vomitoria
+224               Seed dispersal_Cheilosia.glossa
+225               Seed dispersal_Columba.palumbus
+226            Seed dispersal_Criorhina.berberina
+227       Seed dispersal_Dasysyrphus.albostriatus
+228              Seed dispersal_Dendrocopos.major
+229                   Seed dispersal_Diptera.n.i.
+230                 Seed dispersal_Empididae.n.i.
+231           Seed dispersal_Eristalis.arbustorum
+232             Seed dispersal_Eristalis.pratorum
+233                Seed dispersal_Eristalis.tenax
+234             Seed dispersal_Erithacus.rubecula
+235              Seed dispersal_Fringilla.coelebs
+236                      Seed dispersal_Fungus.NI
+237            Seed dispersal_Garrulus.glandarius
+238                   Seed dispersal_Gonia.ornata
+239         Seed dispersal_Halictus.quadricinctus
+240             Seed dispersal_Halictus.scabiosae
+241            Seed dispersal_Halictus.tridivisus
+242                 Seed dispersal_Hedya.pruniana
+243             Seed dispersal_Hemaris.fuciformis
+244                 Seed dispersal_Hemaris.tityus
+245          Seed dispersal_Iphiclides.podalirius
+246         Seed dispersal_Lasioglossum.xanthopum
+247             Seed dispersal_Mallota.fuciformis
+248        Seed dispersal_Megachile.centuncularis
+249                   Seed dispersal_Myzus.cerasi
+250                             Seed dispersal_NI
+251                  Seed dispersal_Orthoptera.NI
+252                     Seed dispersal_Osmia.rufa
+253                     Seed dispersal_Parus.ater
+254                Seed dispersal_Parus.caeruleus
+255                Seed dispersal_Parus.cristatus
+256                    Seed dispersal_Parus.major
+257           Seed dispersal_Phoenicurus.ochruros
+258        Seed dispersal_Phoenicurus.phoenicurus
+259                 Seed dispersal_Pollenia.rudis
+260 Seed dispersal_Psithyrus.vestalis.obenbergeri
+261                 Seed dispersal_Sitta.europaea
+262               Seed dispersal_Sphecodes.gibbus
+263             Seed dispersal_Sylvia.atricapilla
+264                   Seed dispersal_Sylvia.borin
+265              Seed dispersal_Sylvia.cantillans
+266                Seed dispersal_Sylvia.communis
+267           Seed dispersal_Sylvia.conspicillata
+268           Seed dispersal_Sylvia.melanocephala
+269                Seed dispersal_Syrphus.ribessi
+270            Seed dispersal_Syrphus.vitripennis
+271              Seed dispersal_Tachina.corsicana
+272             Seed dispersal_Taphrina.deformans
+273                  Seed dispersal_Turdus.merula
+274              Seed dispersal_Turdus.viscivorus
+275                      Seed dispersal_Ungulates
+276                   Seed dispersal_Unidentified
+277                 Seed dispersal_Vanessa.cardui
+278              Seed dispersal_Xylocopa.violacea
+279         Seed dispersal_Yponomeuta.mahalebella

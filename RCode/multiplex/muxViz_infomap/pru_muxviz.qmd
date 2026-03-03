@@ -1,0 +1,658 @@
+---
+title: "Multiplex_muxViz analysis-Prunus mahaleb"
+author:
+  name: Pedro Jordano
+  affiliation: 
+    name: Estación Biológica de Doñana, CSIC and Dept. Biol. Vegetal y Ecología, Universidad de Sevilla
+toc: false
+orcid: 0000-0003-2142-9116
+email: jordano@ebd.csic.es
+city: Sevilla
+url: pjordanolab.ebd.csic.es
+date: "2023-11-20"
+output: html_document
+format: 
+   pdf:
+      documentclass: article
+      papersize: a4
+      classoption: [11pt]
+      fig-width: 8
+      fig-height: 6
+      geometry:
+        - top=20mm
+        - left=25mm
+        - right=15mm
+        - bottom=20mm
+        - textwidth=130mm
+code-fold: TRUE
+bibliography: grateful-muxViz-refs.bib
+editor_options: 
+      chunk_output_type: console
+---
+
+```{r setup, echo=TRUE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(dplyr)
+library(bipartite)
+library(multinet)
+library(muxViz)
+library(emln)
+library(infomapecology)
+library(igraph)
+library(MuMIn)
+library(mgcv)
+library(performance)
+library(rsq)
+library(lme4)
+library(GGally)
+library(grid)
+library(gridExtra)
+library(cowplot)
+library(intergraph)
+library(RColorBrewer)
+library(viridis)
+library(ggraph)
+library(ggbipart)
+library(ggcorrplot)
+library(kableExtra)
+
+# Setup paths to external fanmod and infomap executables.
+pathFanmod <- here::here("./RCode/multiplex/src-exe/fanmod_macosx")
+pathInfomap <- here::here("./RCode/multiplex/src-exe/infomap_macosx")
+
+```
+
+Here I analyze the data with `infomap`, basically, with some estimates obtained with
+packages `elmn` and `muxViz`. Calculation of the multilayer metrics is done with package
+`muxViz`.
+
+First, interaction data are entered for the three interaction types as an edge list with
+weights with all the interactions recorded.
+
+## Data
+
+Reading the original data adjacency matrices and summarizing species, interaction
+frequencies, etc. to help assessing the large sparse matrices of te multilayer.
+
+```{r input.prunus, echo=TRUE}
+pm.disp<- read.table(here::here("data/raw/multiplex/pmah_disp.txt"), sep="\t",
+                     dec=".", header= TRUE)
+pm.poll<- read.table(here::here("data/raw/multiplex/pmah_poll.txt"), 
+    na="NA", sep="\t", dec=".", header= TRUE)
+pm.herb<- read.table(here::here("data/raw/multiplex/pmah_herb.txt"), 
+     na="NA", sep="\t", dec=".", header= TRUE)
+pm.attr<- read.table(here::here("data/raw/multiplex/pmah_attr.txt"), 
+    na="NA", sep="\t", dec=".", header= TRUE)
+
+# Interaction matrices extracted from the dataframes.
+pm.herb.mat<- as.matrix(pm.herb[1:19,2:12], 
+		ncol = n, dimnames = list(paste0("A", 1:12), paste0("P", 1:19)))
+row.names(pm.herb.mat)<- pm.herb$X[1:19]
+
+pm.poll.mat<- as.matrix(pm.poll[1:19,2:44], 
+		dimnames = list(paste0("A", 1:44), paste0("P", 1:19)))
+row.names(pm.poll.mat)<- pm.poll$X[1:19]
+
+pm.disp.mat<- as.matrix(pm.disp[1:19,2:22], 
+		dimnames = list(paste0("A", 1:22), paste0("P", 1:19)))
+row.names(pm.disp.mat)<- pm.disp$X[1:19]
+
+# Total number of distinct nodes (physical nodes). 
+# Here the trees are counted just once.
+dim(pm.herb.mat)[1]+dim(pm.herb.mat)[2]+dim(pm.poll.mat)[2]+dim(pm.disp.mat)[2]
+
+# Total number of state nodes (trees). Here the trees are counted just once.
+dim(pm.herb.mat)[1]
+
+# Total number of nodes (physical and state). 
+# Here the trees (state nodes) are counted three times, one state in each layer.
+dim(pm.herb.mat)[1]+dim(pm.herb.mat)[2]+dim(pm.poll.mat)[1]+dim(pm.poll.mat)[2]+
+    dim(pm.disp.mat)[1]+dim(pm.disp.mat)[2]
+
+# Total number of interactions recorded
+dim(pm.herb.mat); dim(pm.poll.mat); dim(pm.disp.mat)
+sum(pm.herb.mat, pm.poll.mat, pm.disp.mat)
+
+# Total number of distinct, pairwise interactions.
+non_zero_count <- sum(pm.herb.mat != 0,   # Count non-zero elements. 
+                                          # No. distinct interactions.
+                      pm.poll.mat != 0, 
+                      pm.disp.mat != 0) ; non_zero_count
+
+```
+
+Reading the multilayer network (dataframe) with columns indicating tree and animal species
+(no,plant,animal,w,layer) and the following columns indicating the frequency of
+interaction and the layer for each pairwise interaction.
+
+Then I extract each interaction type and build layer-specific network graphs.
+
+```{r data, echo=TRUE, fig.height=10, fig.width=14}
+# Input all the interactions as a data.frame.
+multilayer <- 
+    read.csv(here::here("./data/raw/prunus_data/pmah_multilayer_data.csv"), 
+             header = T)
+
+# Edge list extended. For analysis in Infomap web app.
+# Just open "./data/raw/prunus_data/pm_multilayer_net_explicit.csv" and
+# copy/paste in web app.
+# 
+
+## Creating the layers by filtering the interactions mediated by each 
+## type of resource.
+#--------------------------------------------------------------------------
+# Layer 1 - Herbivory interactions
+ml1r <- multilayer %>% dplyr::filter(layer == "H") %>% 
+	                  dplyr::select(plant, animal, w)
+# List with plant and animal names
+nodesH <- unique(c(as.character(unique(ml1r$plant)), 
+                   as.character(unique(ml1r$animal))))
+
+# igraph. Scaled weights.
+scl.w <- ml1r$w*log(ml1r$w + 1) / max(ml1r$w + 1)
+
+# Plotting the first layer in igraph
+pru.herb.g <- graph_from_data_frame(ml1r, directed = FALSE,
+									vertices = nodesH) %>%
+                        set_vertex_attr(name = "types",
+                        				value = names(V(.)) %in%
+                        					    ml1r$plant)
+E(pru.herb.g)$scl.w <- scl.w
+V(pru.herb.g)$type <- bipartite_mapping(pru.herb.g)$type
+V(pru.herb.g)$color <- ifelse(V(pru.herb.g)$type, "#4E98C9", "#E6C74C")
+V(pru.herb.g)$shape <- ifelse(V(pru.herb.g)$type, "circle", "square")
+
+is_weighted(pru.herb.g)
+
+# Plot.
+pm.herb.net<- bip_init_network(pm.herb.mat)
+wt<- pm.herb.net %e% "weights"
+wt<- wt*log(wt+1)/max(wt+1)
+pm.herb.net %e% "weights"<- sqrt(wt)
+col <- c(A="#4E98C9", P="#E6C74C")
+pp1<- GGally::ggnet2(pm.herb.net, 
+                     mode = "kamadakawai",
+                     label=F, 
+                     color = "mode", 
+                     shape= "mode", 
+                     palette = col, 
+                     size = 8,
+                     edge.color = "grey60", 
+                     edge.size = "weights") +
+       geom_label(aes(label = label), nudge_y = 0.045)
+pp1
+
+#--------------------------------------------------------------------------
+# Layer 2 - Pollination interactions
+ml2r <- multilayer %>% dplyr::filter(layer == "P") %>%
+	                  dplyr::select(plant, animal, w)
+
+nodesP <- unique(c(as.character(unique(ml2r$plant)), 
+                   as.character(unique(ml2r$animal))))
+
+# igraph. Scaled weights.
+scl.w <- ml2r$w*log(ml2r$w + 1) / max(ml2r$w + 1)
+
+# Plotting the first layer in igraph
+pru.poll.g <- graph_from_data_frame(ml2r, directed = FALSE,
+									vertices = nodesP) %>%
+                        set_vertex_attr(name = "types",
+                        				value = names(V(.)) %in%
+                        					    ml2r$plant)
+E(pru.poll.g)$scl.w <- scl.w
+V(pru.poll.g)$type <- bipartite_mapping(pru.poll.g)$type
+V(pru.poll.g)$color <- ifelse(V(pru.poll.g)$type, "lightblue", "yellow")
+V(pru.poll.g)$shape <- ifelse(V(pru.poll.g)$type, "circle", "square")
+
+is_weighted(pru.poll.g)
+
+# Plot. NOT RUN
+# igraph::plot.igraph(pru.poll.g,
+#          layout=layout.fruchterman.reingold,
+#          # layout= layout.kamada.kawai,
+#          vertex.color= V(pru.poll.g)$color,
+#          #vertex.color=c(rep("#FC9272", dim(mymat)[1]),
+#          #               rep("#9ECAE1", dim(mymat)[2])),
+#          vertex.size= 6,
+#     	 vertex.label.dist= 1,
+#          vertex.shape= V(pru.poll.g)$shape,
+# 		 vertex.label.family= "sans",
+#          edge.width= 7*scl.w)       # Adjust constant for
+#                                     # better line widths
+#                                     # edge.width=E(g)$weight/20)
+
+# Plot.
+pm.poll.net<- bip_init_network(pm.poll.mat)
+wt<- pm.poll.net %e% "weights"
+wt<- wt*log(wt + 1)/max(wt + 1)
+pm.poll.net %e% "weights"<- sqrt(wt)
+col <- c(A="#4E98C9", P="#E6C74C")
+pp2<- GGally::ggnet2(pm.poll.net, 
+                     mode = "kamadakawai",
+                     label=F, 
+                     color = "mode", 
+                     shape= "mode", 
+                     palette = col, 
+                     size = 8,
+                     edge.color = "grey60", 
+                     edge.size = "weights") +
+       geom_label(aes(label = label), nudge_y = 0.045)
+pp2
+   
+#--------------------------------------------------------------------------
+# Layer 3 - Seed dispersal interactions
+ml3r <- multilayer |> dplyr::filter(layer == "SD") %>% 
+    	              dplyr::select(plant, animal, w)
+
+nodesSD <- unique(c(as.character(unique(ml3r$plant)), 
+					as.character(unique(ml3r$animal))))
+
+# igraph. Scaled weights.
+scl.w <- ml3r$w*log(ml3r$w + 1) / max(ml3r$w + 1)
+
+pru.disp.g <- graph_from_data_frame(ml3r, directed = FALSE,
+									vertices = nodesSD) %>%
+                        set_vertex_attr(name = "types",
+                        				value = names(V(.)) %in%
+                        					    ml3r$plant)
+E(pru.disp.g)$scl.w <- scl.w
+V(pru.disp.g)$type <- bipartite_mapping(pru.disp.g)$type
+V(pru.disp.g)$color <- ifelse(V(pru.disp.g)$type, "lightblue", "salmon")
+V(pru.disp.g)$shape <- ifelse(V(pru.disp.g)$type, "circle", "square")
+
+is_weighted(pru.disp.g)
+
+# # Plot. NOT RUN
+# igraph::plot.igraph(pru.disp.g,
+#          layout=layout.fruchterman.reingold,
+#          # layout= layout.kamada.kawai,
+#          vertex.color= V(pru.disp.g)$color,
+#          #vertex.color=c(rep("#FC9272", dim(mymat)[1]),
+#          #               rep("#9ECAE1", dim(mymat)[2])),
+#          vertex.size= 6,
+#     	 vertex.label.dist= 1,
+#          vertex.shape= V(pru.disp.g)$shape,
+# 		 vertex.label.family= "sans",
+#          edge.width= 7*scl.w)       # Adjust constant for
+#                                     # better line widths
+#                                     # edge.width=E(g)$weight/20)
+# Plot.
+pm.disp.net<- bip_init_network(pm.disp.mat)
+wt<- pm.disp.net %e% "weights"
+wt<- wt*log(wt + 1)/max(wt + 1)
+pm.disp.net %e% "weights"<- sqrt(wt)
+col <- c(A="#4E98C9", P="#E6C74C")
+pp3<- GGally::ggnet2(pm.disp.net, 
+                     mode = "kamadakawai",
+                     label=F, 
+                     color = "mode", 
+                     shape= "mode", 
+                     palette = col, 
+                     size = 8,
+                     edge.color = "grey60", 
+                     edge.size = "weights") +
+       geom_label(aes(label = label), nudge_y = 0.04)
+pp3
+
+#---------------------------------------
+# Plot in grid. 
+# grid.arrange(pp1, pp2, pp3, nrow = 3)
+
+```
+
+## Multilayer network
+
+Building the multilayer network object in `muxViz` from a series of edge lists for each
+layer.
+
+```{r multlyr, echo=TRUE, fig.height=10, fig.width=14}
+# Generating the multilayer network joining all the layers.
+# Naming layers.
+Layer1Name <- "Herbivory"
+Layer2Name <- "Pollination"
+Layer3Name <- "Seed dispersal"
+
+# Empty object for including the multilayer network.
+net <- ml_empty()
+
+# Add the layers in the empty object for generating multilayer network.
+add_igraph_layer_ml(net, pru.herb.g, Layer1Name)
+add_igraph_layer_ml(net, pru.poll.g, Layer2Name)
+add_igraph_layer_ml(net, pru.disp.g, Layer3Name)
+
+#--------------------------------------------------------------------------
+### Preparing the data and files for using in muxViz package.
+# Naming file to insert the network (data_config.txt), to indicate the 
+# nodes as well the layers.
+DataConfig  <- here::here("./RCode/multiplex/muxViz_infomap/input/data_config.txt")
+NodesLayout <- here::here("./RCode/multiplex/muxViz_infomap/input/nodes_layout.txt")
+LayerEdges1 <- here::here("./RCode/multiplex/muxViz_infomap/input/layer1.edges")
+LayerEdges2 <- here::here("./RCode/multiplex/muxViz_infomap/input/layer2.edges")
+LayerEdges3 <- here::here("./RCode/multiplex/muxViz_infomap/input/layer3.edges")
+
+## Nodes layout.
+# Creating the file with species name and ID. For this, we need to select 
+# each species name once. We can organiza in alphabetical order using 
+# the function "sort".
+NodesMV <- as.data.frame(sort(unique(c(nodesH, nodesP, nodesSD))))
+
+# Enumerating the nodes.
+NodesMV <- cbind(1:nrow(NodesMV), NodesMV)
+
+# Changing the column name (node ID and the species name).
+colnames(NodesMV) <- c("nodeID", "nodeLabel")
+
+# Saving the datframe.
+write.table(NodesMV, NodesLayout, sep=" ", row.names=FALSE, quote=FALSE)
+
+NodesMV.tib<- as_tibble(NodesMV)
+
+#--------------------------------------------------------------------------
+## Layer 1.
+mll1 <- ml1r
+
+# Including node label and species identity in layer 1
+mll1[] <- lapply(mll1, function(z) {
+  newval <- NodesMV$nodeID[match(z, NodesMV$nodeLabel)]
+  ifelse(is.na(newval), z, newval)})
+
+write.table(mll1, LayerEdges1, sep=" ", col.names = FALSE, 
+            row.names=FALSE, quote=FALSE)
+
+## Layer 2.
+mll2 <- ml2r
+
+mll2[] <- lapply(mll2, function(z) {
+  newval <- NodesMV$nodeID[match(z, NodesMV$nodeLabel)]
+  ifelse(is.na(newval), z, newval)})
+
+write.table(mll2, LayerEdges2, sep=" ", col.names = FALSE, 
+            row.names=FALSE, quote=FALSE)
+
+## Layer 3.
+mll3 <- ml3r
+
+mll3[] <- lapply(mll3, function(z) {
+  newval <- NodesMV$nodeID[match(z, NodesMV$nodeLabel)]
+  ifelse(is.na(newval), z, newval)})
+
+write.table(mll3, LayerEdges3, sep=" ", col.names = FALSE, 
+            row.names=FALSE, quote=FALSE)
+
+## Creating the data_config file.
+LEdg1 <- paste(LayerEdges1, Layer1Name, NodesLayout, sep = ";")
+LEdg2 <- paste(LayerEdges2, Layer2Name, NodesLayout, sep = ";")
+LEdg3 <- paste(LayerEdges3, Layer3Name, NodesLayout, sep = ";")
+LEdgAll <- c(LEdg1, LEdg2, LEdg3)
+
+write.table(LEdgAll, DataConfig, sep="", col.names = FALSE, 
+            row.names=FALSE, quote=FALSE)
+#--------------------------------------------------------------------------
+## Multilayer tensors
+
+config.file <- here::here("./RCode/multiplex/muxViz_infomap/input/data_config.txt")
+
+# config.file <- 
+# "~/Documents/Working/MS_Multiplex_networks/data-raw/muxViz
+# /pmah/pm_config.txt"
+#
+# This flag is important to understand if input networks are directed or not
+isDirected <- F
+
+# This flag is important to understand if input networks are weighted or not
+isWeighted <- T
+
+networkOfLayersType <- "ordinal"
+
+# Indicating coupling strength in each layer (balanced strength for each layer)
+LayerCouplingStrength <- 0.5
+
+# Building a multilayer network in MuxViz package.
+source(here::here("./RCode/functions/buildMultilayerNetworkFromMuxvizFiles_corrected.R"))
+pm.mux <- buildMultilayerNetworkFromMuxvizFiles_corrected(
+	                        config.file= config.file,
+                            isDirected=isDirected,
+                            isWeighted=isWeighted,
+                            MultisliceType=networkOfLayersType,
+                            LayerCouplingStrength=LayerCouplingStrength,
+                            format="muxviz edge-colored",
+                            verbose=T)
+image(pm.mux$aggregateTensor, main = "dgCMatrix Heatmap", xlab = "Columns", ylab = "Rows")
+
+# Build the multilayer adjacency tensor
+M <- BuildSupraAdjacencyMatrixFromEdgeColoredMatrices(pm.mux$nodeTensor, pm.mux$layerTensor,
+                                                      Layers= 3, Nodes= 94)
+# lay <- layoutMultiplex(g.list, layout="fr", ggplot.format=F, box=T)
+
+# Build the multilayer adjacency tensor
+M <- BuildSupraAdjacencyMatrixFromEdgeColoredMatrices(pm.mux$nodeTensor,
+                                                      pm.mux$layerTensor, Layers=3, Nodes= 94)
+# Plot the supra-adjacency matrix
+#image(M, main = "dgCMatrix Heatmap", xlab = "Columns", ylab = "Rows")
+# Heatmap(M)
+
+```
+
+This is the multilayer adjacency tensor, showing interactions for N= 19 trees (rows 55 to
+73) with herbivores, pollinators, and frugivores. These animal/fungi organisms are
+arranged alphabetically as columns, according to the follwing list.
+
+```{r adj.tensor_list, echo=TRUE}
+# TODO: Arrange this tibble as trees, herb, poll, disp.
+NodesMV.tib
+
+```
+
+# Multilayer layout
+
+Input the multilayer data and layout. Analysis and evaluation with the multilayer network.
+
+```{r multlyr_layout, echo=TRUE, fig.height= 10, fig.width= 14}
+#--------------------------------------------------------------------------
+## Multilayer metrics
+# Build supraadjacency matrix.
+pm.mEdges <- 
+    read.csv(here::here("./data/raw/multiplex/pm_supraadj.edges"),
+             header = TRUE, sep=",", dec=".")
+#Change the column name - id to c1
+pm.mEdges<- pm.mEdges %>% 
+   rename("node_from" = "node.from")   %>%
+   rename("layer_from" = "layer.from") %>%
+   rename("node_to" = "node.to") %>%
+   rename("layer_to" = "layer.to") 
+
+pm.mEdges.tib<- as_tibble(pm.mEdges)
+pm.mEdges.tib<- pm.mEdges.tib %>% relocate(node_from, .after = layer_from)
+pm.mEdges.tib<- pm.mEdges.tib %>% relocate(node_to, .after = layer_to)
+
+pm.supramux<- BuildSupraAdjacencyMatrixFromExtendedEdgelist(
+  pm.mEdges,
+  3,
+  94,
+  isDirected= FALSE
+)
+
+pm.nodes.tns<- SupraAdjacencyToNodesTensor(pm.supramux, Layers=3, Nodes=94)
+
+# Scaled weights.
+    mlr<- as.data.frame(rbind(ml1r, ml2r, ml3r))
+    scl.w <- ml1r$w*log(mlr$w + 1) / max(mlr$w + 1)
+
+pm.supraadj.g<- GetAggregateNetworkFromSupraAdjacencyMatrix(pm.supramux, 3, 94)
+bipartite_mapping(pm.supraadj.g)
+E(pm.supraadj.g)$scl.w <- scl.w
+V(pm.supraadj.g)$type <- bipartite_mapping(pm.supraadj.g)$type
+V(pm.supraadj.g)$color <- ifelse(V(pm.supraadj.g)$type, "lightblue", "salmon")
+V(pm.supraadj.g)$shape <- ifelse(V(pm.supraadj.g)$type, "circle", "square")
+V(pm.supraadj.g)$layer <- c(rep("tree",19), 
+								rep("H",11),
+								rep("P",43),
+								rep("SD",21))
+V(pm.supraadj.g)$ly.color <-  c(rep("yellow",19), 
+								rep("lightblue",11),
+								rep("orange",43),
+								rep("salmon",21))
+
+# Plot the sparse matrix.
+image(pm.supramux, main = "dgCMatrix Heatmap", xlab = "Columns", ylab = "Rows")
+
+#--------------------------------------------------------------------------
+
+```
+
+Here we see the three layers of interactions as rectangles in the symmetric supra-matrix.
+Each adjacency matrix canbe seen in the upper-diagonal matrix as rectangles with trees as
+rows and animal/fungi organisms as columns (e.g., trees as rows 1-19, 95-113, and
+190-208). The diagonal lines to the sides represent the interlayer links.
+
+# Compute some multilayer statistics
+
+```{r centrality_measures}
+# PageRank centrality
+pr <- GetMultiPageRankCentrality(pm.supramux, Layers= 3, Nodes= 94)
+
+# Eigenvector centrality
+egvC<- GetMultiEigenvectorCentrality(pm.supramux, Layers= 3, Nodes= 94)
+
+# Multidegree
+multidegree<- GetMultiDegree(pm.supramux, Layers= 3, Nodes= 94, isDirected=F)
+
+# Multistrength
+multistrength<- GetMultiInStrength(pm.supramux, Layers= 3, Nodes= 94, isDirected = F)
+
+# List of three igraph objects for the thre mnanolayers.
+g.list<- SupraAdjacencyToNetworkList(pm.supramux, Layers=3, Nodes=94)
+
+# Saving multilayer muxViz statistics.
+node<- NodesMV.tib$nodeLabel
+muxViz_stats <- as.data.frame(cbind(node, pr, egvC, multistrength, multidegree))
+colnames(muxViz_stats)<-c("node","pagerankcentrality",
+                          "eigenvectorcentrality","multistrength",
+                          "multidegree") 
+
+# Output to table.
+write.table(muxViz_stats,
+            here::here("./RCode/multiplex/muxViz_infomap/out/muxViz_stats.txt"), 
+            sep=",", col.names = TRUE, row.names=TRUE, quote=FALSE)
+
+
+# muxViz_stats %>% kableExtra::kable(digits = 4) %>%
+#kableExtra::kable_styling(font_size = 10, latex_options = "scale_down")
+
+# Pearson and Spearman correlation coefficients among layers.
+pm.assort.tnsr<- GetInterAssortativityTensor(
+  pm.supramux,
+  Layers= 3,
+  Nodes= 94,
+  isDirected= F,
+  Type="TT"
+)               ; pm.assort.tnsr
+
+# Similarity matrix among layers.
+pm.sim.mat<- GetSPSimilarityMatrix(pm.supramux, Layers=3, Nodes= 94)
+pm.sim.mat
+
+
+```
+
+## Multilayer metrics
+
+# Metrics with muxViz
+
+I'm using here the shell version of Infomap. It is run in the terminal with output files
+directed to directory `./out`.
+
+```{r infomap-shell, echo=TRUE, fig.width=14,fig.height=9}
+# RUN THIS COMMAND IN TERMINAL:
+system("ls -l")
+system("./Infomap ./out/multimap_prunus_infomap.edges ./out/ --clu --seed 12345 --num-trials 50 -v --multilayer-relax-rate 0.45, multilayerJSRelaxRate= NA, --two-level outputPrefix= multimap_prunus")
+
+```
+
+### Draft for metrics storage
+
+Here I pool the combined multilayer stats for different species and the trees in order to
+obtain estiamtes of strength and centrality for each taxa within the multilayer structure.
+
+```{r metrics_storage, echo=TRUE}
+# Creating files to store metrics
+# We will evaluate metrics from different perspectives (multilayer, aggregate and
+#  single-layer).
+
+# Multilayer perspective
+
+res <- data.frame()
+
+res[["degree"]] <- data.frame()
+res[["strength"]] <- data.frame()
+res[["pagerank"]] <- data.frame()
+res[["eigcentr"]] <- data.frame()
+# res[["avglobclust"]] <- data.frame()
+res[["conncomp"]] <- data.frame()
+
+# Obtaining multilayer metrics
+multi.deg <- GetMultiDegree(pm.supramux, Layers= 3, 
+                            Nodes= 94, 
+                            isDirected = F)
+multi.str<- GetMultiStrength(pm.supramux, Layers= 3, 
+                             Nodes= 94, 
+							 isDirected= F)
+# multi.in.deg<- GetMultiInDegree(pm.supramux, Layers= 3, 
+#								Nodes= 94, isDirected = F)
+# multi.in.str<- GetMultiInStrength(pm.supramux, Layers= 3, Nodes= 94, 
+#							  isDirected= F)
+multi.PR.cent <- GetMultiPageRankCentrality(pm.supramux, Layers= 3, 
+                                           Nodes= 94)
+multi.egv.cent<- GetMultiEigenvectorCentrality(pm.supramux, 
+                                               Layers= 3, Nodes= 94)
+# multi.Kcore.cent<- GetMultiKCoreCentrality(pm.supramux, Layers= 3, 
+#                                           Nodes= 94)
+# avg.glob.clust<- GetAverageGlobalClustering(pm.supramux, Layers= 3, 
+#                                            Nodes= 94)
+# conn.comp<- GetConnectedComponents(pm.supramux, Layers= 3,
+#                                   Nodes= 94)
+
+res <- data.frame(node= NodesMV$nodeLabel, 
+				  multidegree= multi.deg,
+				  multistrength= multi.str,
+#				  multiindeg= multi.in.deg,
+#				  multiinstr= multi.in.str,
+				  multiPRcent= multi.PR.cent,
+				  multiegvcent= multi.egv.cent)
+# 				  multiKcorecent= multi.Kcore.cent)
+#				  avglobclust= avg.glob.clust,
+#				  conncomp= conn.comp)
+# res
+
+res %>% kableExtra::kable(digits = 4) %>%
+            kableExtra::kable_styling(font_size = 11, latex_options = "scale_down")
+
+# Output to table.
+write.table(res, here::here("./RCode/multiplex/muxViz_infomap/out/muxViz_multistats.txt"), 
+            sep=",", col.names = TRUE, row.names=TRUE, quote=FALSE)
+
+```
+
+------------------------------------------------------------------------------------------
+
+# `R` packages used
+
+```{r grateful, echo: F, message: F, class.message: F, class.warning: F, warning: F}
+pkgs <- grateful::cite_packages(output = "table", pkgs = "Session", out.dir = ".")
+knitr::kable(pkgs)
+
+```
+
+{{< pagebreak >}}
+
+Session info
+
+```{r session, warning=FALSE, error=FALSE}
+sessionInfo()
+
+```
+
+{{< pagebreak >}}
+
+# References

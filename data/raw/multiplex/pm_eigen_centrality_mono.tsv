@@ -1,0 +1,133 @@
+layer	node	eigen.centrality.mono
+Herbivory	Yponomeuta.mahalebella	0.115393
+Herbivory	Hemaris.fuciformis	0.169933
+Herbivory	Iphiclides.podalirius	0.114386
+Herbivory	Hedya.pruniana	0.888652
+Herbivory	Orthoptera.NI	0.047686
+Herbivory	Myzus.cerasi	0.095027
+Herbivory	Aglaope.infausta	0.133653
+Herbivory	Fungus.NI	0.514406
+Herbivory	Taphrina.deformans	0.02347
+Herbivory	Ungulates	0.694467
+Herbivory	NI	0.035774
+Herbivory	pm1933	0.060023
+Herbivory	pm1931	0.687932
+Herbivory	pm1932	0.080389
+Herbivory	pm1934	0.474073
+Herbivory	pm1936	0.307557
+Herbivory	pm1937	0.273984
+Herbivory	pm1938	0.050019
+Herbivory	pm1939	0.180539
+Herbivory	pm1940	0.631666
+Herbivory	pm1921	0.265456
+Herbivory	pm1823	0.321773
+Herbivory	pm1824	0.156645
+Herbivory	pm1820	0.043412
+Herbivory	pm1825	0.080031
+Herbivory	pm1929	0.443902
+Herbivory	pm8801	0.230447
+Herbivory	pm8808	0.076321
+Herbivory	pm8814	0.120046
+Herbivory	pm8865	0.210081
+Pollination	Hemaris.tityus	0.00056112
+Pollination	Iphiclides.podalirius	0.00074162
+Pollination	Vanessa.cardui	0.00016278
+Pollination	Psithyrus.vestalis.obenbergeri	0.00517534
+Pollination	Bombus.pratorum.m.	0.00290618
+Pollination	Bombus.pratorum.wk.	0.03014776
+Pollination	Bombus.pascuorum.wk.	0.00444905
+Pollination	Bombus.pascuorum.q.	0.00269015
+Pollination	Bombus.terrestris.wk.	0.05004208
+Pollination	Bombus.terrestris.q.	0.00632314
+Pollination	Xylocopa.violacea	0.01140341
+Pollination	Apis.mellifera	0.02358546
+Pollination	Osmia.rufa	0.01743816
+Pollination	Andrena.fulva	0.6534149
+Pollination	Andrena.synadelpha.nigroaenea	0.01205614
+Pollination	Andrena.trimmerana	0.00700767
+Pollination	Andrena.congruens	0.08200738
+Pollination	Andrena.tibialis.corvina	0.00145309
+Pollination	Andrena.albopunctata.morio	0.00817194
+Pollination	Andrena.assimilis	0.00435928
+Pollination	Halictus.quadricinctus	0.00994793
+Pollination	Halictus.tridivisus	0.00363299
+Pollination	Halictus.scabiosae	0.00859313
+Pollination	Lasioglossum.xanthopum	0.00046849
+Pollination	Sphecodes.gibbus	0.00821444
+Pollination	Megachile.centuncularis	0.00363299
+Pollination	Ancistrocerus.nigricornis	0.00363299
+Pollination	Eristalis.tenax	0.09061095
+Pollination	Eristalis.pratorum	0.00742944
+Pollination	Eristalis.arbustorum	0.03007341
+Pollination	Cheilosia.glossa	0.02810071
+Pollination	Mallota.fuciformis	0.00752237
+Pollination	Dasysyrphus.albostriatus	0.00413062
+Pollination	Syrphus.vitripennis	0.02375866
+Pollination	Syrphus.ribessi	0.00297294
+Pollination	Criorhina.berberina	0.00246768
+Pollination	Calliphora.vomitoria	0.72574728
+Pollination	Gonia.ornata	0.13528105
+Pollination	Pollenia.rudis	0.03788561
+Pollination	Tachina.corsicana	0.00975729
+Pollination	Asilidae.n.i.	0.05074536
+Pollination	Empididae.n.i.	0.13453742
+Pollination	Diptera.n.i.	0.00768176
+Pollination	pm1933	0.04106236
+Pollination	pm1931	0.36654407
+Pollination	pm1932	0.43787789
+Pollination	pm1934	0.11360172
+Pollination	pm1936	0.14601318
+Pollination	pm1937	0.12121844
+Pollination	pm1938	0.20585237
+Pollination	pm1939	0.3120494
+Pollination	pm1940	0.91642632
+Pollination	pm1921	0.14154321
+Pollination	pm1823	0.08107443
+Pollination	pm1824	0.18008875
+Pollination	pm1820	0.10556465
+Pollination	pm1825	0.12010656
+Pollination	pm1929	0.11817677
+Pollination	pm8801	0.0484722
+Pollination	pm8808	0.10352171
+Pollination	pm8814	0.12107143
+Pollination	pm8865	0.08567677
+Seed dispersal	Columba.palumbus	0.0012111
+Seed dispersal	Garrulus.glandarius	0.1014206
+Seed dispersal	Turdus.merula	0.1063947
+Seed dispersal	Phoenicurus.ochruros	0.6429477
+Seed dispersal	Erithacus.rubecula	0.1638296
+Seed dispersal	Parus.ater	0.3524178
+Seed dispersal	Fringilla.coelebs	0.9371059
+Seed dispersal	Sylvia.conspicillata	0.0037326
+Seed dispersal	Sylvia.atricapilla	0.0220257
+Seed dispersal	Turdus.viscivorus	0.7311145
+Seed dispersal	Sylvia.communis	0.1169254
+Seed dispersal	Sylvia.melanocephala	0.0084051
+Seed dispersal	Sylvia.borin	0.0069846
+Seed dispersal	Parus.caeruleus	0.1877755
+Seed dispersal	Phoenicurus.phoenicurus	0.1028389
+Seed dispersal	Parus.cristatus	0.0091574
+Seed dispersal	Parus.major	0.0406222
+Seed dispersal	Sylvia.cantillans	0.0551632
+Seed dispersal	Sitta.europaea	0.0424723
+Seed dispersal	Dendrocopos.major	0.0225561
+Seed dispersal	Unidentified	0.0080586
+Seed dispersal	pm1933	0.2631021
+Seed dispersal	pm1931	0.3159558
+Seed dispersal	pm1932	0.2023049
+Seed dispersal	pm1934	0.0448351
+Seed dispersal	pm1936	0.0165444
+Seed dispersal	pm1937	0.1216008
+Seed dispersal	pm1938	0.0914324
+Seed dispersal	pm1939	0.1238324
+Seed dispersal	pm1940	0.1715725
+Seed dispersal	pm1921	0.2373338
+Seed dispersal	pm1823	0.9789865
+Seed dispersal	pm1824	0.3548506
+Seed dispersal	pm1820	0.2009953
+Seed dispersal	pm1825	0.3681562
+Seed dispersal	pm1929	0.0242174
+Seed dispersal	pm8801	0.5524784
+Seed dispersal	pm8808	0.2195318
+Seed dispersal	pm8814	0.1384348
+Seed dispersal	pm8865	0.2336792

@@ -1,0 +1,183 @@
+---
+title: "Multiplex Correlates"
+author:
+  name: Pedro Jordano
+  affiliation: 
+    name: Estación Biológica de Doñana, CSIC and Dept. Biol. Vegetal y Ecología, Universidad de Sevilla
+date: 2025-01-21
+toc: false
+orcid: 0000-0003-2142-9116
+email: jordano@ebd.csic.es
+city: Sevilla
+url: pjordanolab.ebd.csic.es
+license: "CC BY-NC" 
+copyright: 
+        holder: Pedro Jordano
+year: 2008
+citation: 
+        container-title: Oikos
+volume: 00
+issue: 0
+doi: 00.0000/00000000
+output: html_document
+format: 
+   pdf:
+      documentclass: article
+      papersize: a4
+      classoption: [11pt]
+      fig-width: 8
+      fig-height: 6
+      geometry:
+        - top=20mm
+        - left=25mm
+        - right=15mm
+        - bottom=20mm
+        - textwidth=130mm
+code-fold: TRUE
+bibliography: grateful-mpcorr-refs.bib
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("/Users/pedro/Documents/Working/~RCode/MyRCode/functions_repo/functions/themes/mytheme_bw.R")
+library(tidyverse)
+library(here)
+library(ggcorrplot)
+library(gridExtra)
+library(kableExtra)
+
+```
+
+## Data
+
+```{r input.prunus}
+# Attributes file.
+pm.attr<- read.table(here("./data/raw/prunus_data/pmah_attr.txt"), 
+                     sep="\t", dec=".", header= TRUE)
+
+require(forcats)
+pm.attr$pollen <- as.factor(fct_relevel(pm.attr$pollen, "n","+","++"))
+
+# Summary stats for trees from muxViz analysis (with old GUI version).
+mV_stats <- read.csv(here("./data/raw/multiplex/muxViz_multistats.csv"), 
+							 header= T, sep= ",", comment.char = "#", dec = ".")
+mV_stats<- mV_stats %>%
+                    dplyr::select(layer, node, node_name, strength, degree, pagerank,
+                                  eigenvector, kcore)
+mV_stats_aggr<- mV_stats %>% dplyr::filter(layer=="Aggr")
+mV_stats_aggr_trees<- mV_stats_aggr[1:19,]
+
+by <- join_by(node_name == node_name)
+pm.attr<- left_join(pm.attr, mV_stats_aggr_trees, by)
+
+```
+
+## Correlates
+
+Examining the correlates for multilayer metrics of the trees with tree characteristics
+(size, dbh, fecundity, growing site, etc.).
+
+```{r tree_correlates, echo=TRUE, fig.height=14, fig.width=14}
+### Describing trees' role in the multilayer network.
+# Describing tree Multidegree (degree) and strength.
+# First let's insert Node ID and species name in the dataframe of multidegree to select 
+# only the trees, excluding the plants.
+
+# Correlation plots.
+# pp<- pm.attr %>% select(2:10, 13:40)
+mydata <- pm.attr %>% dplyr::select(c(4,6,9,13:16,20:23,26:28,31,35,34,37,38))
+colnames(mydata)<- c("bsd", "cnpy", "cs8889", "cons", "rem", "pop", "disp", "uchgt", 
+                     "uccovr", "ochgt", "occovr", "ntree", "drock", "dforest", 
+                     "perim", "strength", "degree", "eigenvector", "kcore")
+corr <- round(cor(mydata, use= "pairwise.complete.obs"), 4)
+p.mat <- cor_pmat(mydata)
+
+# Two species pooled.
+kbl(corr) %>%
+  kable_styling(font_size = 10, full_width = F, latex_options = "scale_down")
+
+
+# Add correlation coefficients
+# argument lab = TRUE
+# Compute a matrix of correlation p-values
+
+ggcorrplot(corr,
+           hc.order = FALSE,
+           type = "lower",
+		   insig = "pch", # "blank",
+		   outline.color = "white",
+		   p.mat = p.mat,
+		   pch=4, pch.cex=6,
+		   digits = 4,
+           lab = TRUE)
+
+```
+
+```{r corr plots, echo=TRUE, fig.height=10, fig.width=12}
+cor(mydata$cnpy,mydata$strength)
+cor.test(mydata$cnpy,mydata$strength)
+
+cor(mydata$eigenvector,mydata$disp)
+cor.test(mydata$eigenvector,mydata$disp)
+
+
+p1<- ggplot(mydata, aes(x=cnpy, y=strength)) +
+			geom_point(size= 6, color= "lightgrey") +
+			geom_point(size= 4, color= "black") +
+    scale_x_log10() + scale_y_log10() +
+    geom_smooth(method=lm) + # Add linear regression line 
+                             # (by default includes 95% confidence region)
+    mytheme_bw()
+    
+p2<- ggplot(mydata, aes(x=eigenvector, y=disp)) +
+    geom_point(size= 6, color= "lightgrey") +
+	geom_point(size= 4, color= "black") +
+    scale_x_log10() + scale_y_log10() +
+    geom_smooth(method=lm) +  # Add linear regression line 
+                              # (by default includes 95% confidence region)
+    mytheme_bw()
+
+grid.arrange(p1, p2, nrow = 2)
+
+```
+
+```{r box-plots, echo=FALSE}
+#install_github("kassambara/easyGgplot2")
+
+# Load the package:
+library(easyGgplot2)
+
+# Box plot with jittered dots. jitter: degree of jitter in x direction
+ggplot2.boxplot(data= pm.attr, xName= 'gender',yName= 'eigenvector',
+                width = 5,
+                addDot=TRUE, dotSize=1.7, dotPosition="jitter",
+                jitter=0.1)
+
+```
+
+{{< pagebreak >}}
+
+------------------------------------------------------------------------------------------
+
+# `R` packages used
+
+```{r grateful, echo: F, message: F, class.message: F, class.warning: F, warning: F}
+pkgs <- grateful::cite_packages(output = "table", pkgs = "Session", out.dir = ".")
+knitr::kable(pkgs)
+
+```
+
+{{< pagebreak >}}
+
+Session info
+
+```{r session, warning=FALSE, error=FALSE}
+sessionInfo()
+
+```
+
+{{< pagebreak >}}
+
+# References

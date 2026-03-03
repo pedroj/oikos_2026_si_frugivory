@@ -1,0 +1,81 @@
+# Dataset with Prunus mahaleb individual tree attributes. 
+# Locality: Nava de las Correhuelas, Parque Natural de las Sierras de Cazorla, 
+#           Segura y Las Villas, Jaén, Spain.
+# See: 
+# See Jordano, P. (1995). Frugivore-mediated selection on fruit and seed size: 
+#         birds and St. Lucie's cherry, Prunus mahaleb. Ecology 76: 2627--2627.
+#         doi: 10.2307/2265833
+# See: Jordano, P. and Schupp, E.W. (2000). Seed disperser effectiveness: The quantity 
+#         component and patterns of seed rain for Prunus mahaleb. Ecological 
+#         Monographs 70: 591-615.
+#         doi: 10.1890/0012-9615(2000)070[0591:SDETQC]2.0.CO;2
+#
+# Data correspond to samplings in 1988 and 1989.
+#
+# Variables:
+# tree: tree label.
+# gender: sex expression. H, hermaphrodite tree. F, functionally female tree. 
+#         The species is gynodioecious.
+# pollen: amount of pollen in anthers; n, no pollen; +, small amount of pollen;
+#         ++, moderate to large amount of pollen.
+# bsd: basal stem diameter (cm). In case of multistem, the largest one.
+# trunks: number of trunks for multistemmed trees.
+# cnpy: area of the horizintal projection of the canopy (m2).
+# cs88: Fruit crop size. Number of fruits counted at the start of the ripening 
+#         season, 1988 sampling.
+# cs89: Fruit crop size. Number of fruits counted at the start of the ripening 
+#         season, 1989 sampling.
+# cs8889: Fruit crop size. Number of fruits counted at the start of the ripening 
+#         season, summed data for the two sampling years (1988 and 1989).
+#         Percentages of consumption and loss refer to this initial, combined, 
+#         estimate of fruit crop size.
+# ms: percentage of fripe fruits dessicated (on branches; lost).
+# pic: percentage of ripe frutis pecked.
+# loss: percentage of fruit crop lost (ms+pic).
+# cons: percentage of fruits consumed. (by any type of frugivore; pic+rem).
+# rem: percentage of fruits removed. Estimated consumption by legitimate 
+#          seed dispersers.
+# pop: percentage of fruits removed by insect predators/pathogens.
+# disp: Estimated number of seeds being dispersed. Combined estimate from 
+#          cons and rem.
+# lossms: Estimated number of fruit being lost by dessication on branches.
+# totloss: Combined estimate of total fruits lost, from ms, pic and loss.
+# uchgt: Mean height of woody vegetation under the canopy, mesasured at four points
+#          around the tree and beneath the canopy (cm).
+# uccovr: Mean percent cover of woody vegetation under the canopy, estimated from
+#          each of the four sectors (quadrants) beneath the canopy.
+# ochgt: Mean height of woody vegetation outside the canopy- up to a meter away
+#          from canopy edge, mesasured at four points around the tree and outside 
+#          the canopy (cm).
+# occovr: Mean percent cover of woody vegetation outside the canopy, estimated for 
+#          each of the four sectors (quadrants) outsid the canopy and up to 1 m 
+#          distance from the canopy's edge.
+# d1: Distance to first conspecific neighbor tree (m).
+# d2: Distance to second conspecific neighbor tree (m).
+# ntree: number of conspecific trees in a 15 m radius around the focal tree.
+# drock: Distance to nearest rock outcrops.
+# dforest: Distance to nearest edge of the pine forest.
+# diam1: Largest diameter of the canopy's horizontal projection (m).
+# diam2: Second largest diameter of the canopy's horizontal projection (m).
+# perim: Perimeter of the canopy's horizontal projection (m).
+#
+node_name	gender	pollen	bsd	trunks	cnpy	cs88	cs89	cs8889	ms	pic	loss	cons	rem	pop	disp	lossms	lossmsp	totloss	uchgt	uccovr	ochgt	occovr	d1	d2	ntree	drock	dforest	diam1	diam2	perim
+pm1933	H	++	21	1	7.16	4610	1270	5880	2.86	10.52	13.38	97.14	86.62	0.24	390	83	307	390	3.3	0.0	2.6	1.3	3.5	9.0	6	9.2	14.0	4.2	3.1	10.6
+pm1931	H	+	17	2	32.96	6750	3270	10020	14.17	38.25	52.42	85.83	47.58	5.07	8183	2212	5971	8183	2.2	0.0	0.1	0.0	11.5	12.7	3	24.5	43.0	5.2	5.1	22.0
+pm1932	F	n	27	3	25.15	8385	2860	11245	1.20	3.88	5.08	98.80	94.92	0.79	1273	301	972	1273	0.7	0.0	1.5	0.0	6.0	9.0	6	9.5	33.0	5.8	4.9	19.3
+pm1934	H	+	9	1	6.88	2540	642	3182	6.82	19.11	25.93	93.18	74.07	0.39	624	164	460	624	1.1	27.5	0.6	45.0	8.5	9.8	2	2.8	17.0	2.5	2.4	10.4
+pm1936	F	n	8	2	3.01	370	298	668	9.29	4.97	14.26	90.71	85.74	0.05	86	56	30	86	1.5	0.0	0.4	0.0	6.5	11.5	5	45.0	55.0	3.2	2.3	7.1
+pm1937	H	++	22	1	26.80	8155	5920	14075	9.60	9.48	19.08	90.40	80.92	2.75	4439	2233	2205	4439	0.4	0.5	0.7	0.0	4.0	11.0	2	60.0	75.0	6.0	4.7	19.9
+pm1938	F	n	27	1	23.30	10775	3760	14535	10.64	12.56	23.20	89.36	76.80	2.14	3446	1580	1866	3446	0.8	0.0	0.1	0.0	6.0	8.5	4	35.0	42.0	5.5	5.0	18.6
+pm1939	F	n	30	1	35.16	7565	1935	9500	10.71	12.58	23.29	89.29	76.71	0.93	1505	692	813	1505	2.9	0.0	3.3	0.0	1.5	2.0	7	21.0	35.0	6.9	5.7	22.7
+pm1940	H	+	11	4	21.02	9210	1190	10400	24.78	14.71	39.49	75.22	60.51	1.83	2959	1857	1102	2959	1.6	0.0	1.2	0.5	1.5	4.5	5	18.0	22.0	5.3	4.4	17.7
+pm1921	F	n	26	1	23.56	14700	1515	16215	4.41	11.37	15.78	95.59	84.22	1.85	2977	832	2145	2977	0.3	1.3	0.4	13.8	31.0	33.0	0	12.0	60.0	5.1	5.0	18.7
+pm1823	F	n	37	1	48.70	11755	1750	13505	6.41	38.82	45.23	93.59	54.77	5.04	8137	1153	6984	8137	0.3	1.8	0.6	3.0	5.5	13.0	3	16.0	20.0	5.7	4.8	26.6
+pm1824	H	++	19	2	22.53	4625	1110	5735	10.39	32.80	43.19	89.61	56.81	2.01	3238	779	2459	3238	1.7	13.8	0.7	43.8	1.5	13.0	2	2.0	3.5	4.8	3.8	18.3
+pm1820	F	n	31	1	37.76	16840	1450	18290	15.43	69.91	85.34	84.57	14.66	2.56	4129	747	3382	4129	0.1	5.5	0.4	5.5	18.5	21.5	0	65.0	35.0	6.8	6.2	23.5
+pm1825	H	+	23	1	12.50	3525	995	4520	11.02	77.12	88.14	88.98	11.86	2.49	4010	501	3509	4010	0.5	85.0	0.7	91.3	57.0	65.0	0	0.0	2.5	4.5	2.7	22.3
+pm1929	H	+	20	3	2.23	624	210	834	25.47	28.62	54.09	74.53	45.91	0.20	319	150	169	319	2.1	0.0	2.9	0.0	1.0	2.5	6	7.0	15.0	2.0	1.9	6.2
+pm8801	H	+	24	2	25.15	10594	4125	14719	9.93	82.84	92.77	90.07	7.23	3.20	5165	553	4613	5165	0.4	18.0	3.3	41.0	9.3	22.8	1	0.0	4.0	5.9	4.4	19.3
+pm8808	F	n	30	5	4.92	1087	556	1643	15.73	16.68	32.41	84.27	67.59	0.22	352	171	181	352	0.7	3.8	2.4	17.5	1.0	6.0	7	5.5	7.0	3.0	2.1	8.9
+pm8814	H	++	10	2	4.57	5568	2235	7803	13.10	7.44	20.54	86.90	79.46	0.51	820	523	297	820	1.6	0.0	3.0	1.3	1.0	27.0	9	14.0	17.0	2.3	1.9	8.6
+pm8865	F	n	15	1	40.45	3994	1963	5957	17.76	31.66	49.42	82.24	50.58	3.24	5236	1881	3354	5236	2.2	0.5	0.7	2.5	8.7	21.7	1	19.0	21.0	8.4	4.0	24.3

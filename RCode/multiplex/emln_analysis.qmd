@@ -1,0 +1,610 @@
+---
+title: "EMLN analysis"
+author:
+  name: Pedro Jordano
+  affiliation: 
+    name: Estación Biológica de Doñana, CSIC and Dept. Biol. Vegetal y Ecología, Universidad de Sevilla
+toc: false
+orcid: 0000-0003-2142-9116
+email: jordano@ebd.csic.es
+city: Sevilla
+url: pjordanolab.ebd.csic.es
+date: "2023-11-20"
+output: pdf_document
+format: 
+   pdf:
+      documentclass: article
+      papersize: a4
+      classoption: [11pt]
+      fig-width: 8
+      fig-height: 6
+      geometry:
+        - top=20mm
+        - left=25mm
+        - right=15mm
+        - bottom=20mm
+        - textwidth=130mm
+code-fold: TRUE
+bibliography: grateful-emln-refs.bib
+editor_options: 
+     chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+package.list=c("tidyverse", "magrittr","igraph","Matrix","DT","hablar","devtools")
+loaded <-  package.list %in% .packages()
+package.list <-  package.list[!loaded]
+installed <-  package.list %in% .packages(TRUE)
+if (!all(installed)) install.packages(package.list[!installed],
+                                      repos="http://cran.rstudio.com/")
+options(max.print = 1000000)
+# devtools::install_github('Ecological-Complexity-Lab/emln', force=T)
+library(here)
+library(emln)
+library(igraph)
+library(bipartite)
+library(magrittr)
+library(ggplot2)
+library(readr)
+library(tibble)
+library(dplyr)
+library(readr)
+library(stringr)
+library(ggsci)
+library(ggbreak)
+# remotes::install_github("YuLab-SMU/ggbreak")
+library(ggpubr)
+library(ggbipart)
+library(grateful)
+library(ComplexHeatmap)
+
+# Setup paths to external fanmod and infomap executables.
+pathFanmod <- here::here("RCode/multiplex/src-exe/fanmod_macosx")
+pathInfomap <- here::here("./RCode/multiplex/src-exe/Infomap")
+
+```
+
+## Data
+
+Here I read the interaction data as data.frames imported from csv or tab-separated files.
+Then I extract just the interaction matrices with the corresponding row names.
+
+```{r input.prunus}
+pm.disp<- read.table(here::here("data/raw/multiplex/pmah_disp.txt"), sep="\t",
+                     dec=".", header= TRUE)
+pm.poll<- read.table(here::here("data/raw/multiplex/pmah_poll.txt"), 
+    na="NA", sep="\t", dec=".", header= TRUE)
+pm.herb<- read.table(here::here("data/raw/multiplex/pmah_herb.txt"), 
+     na="NA", sep="\t", dec=".", header= TRUE)
+pm.attr<- read.table(here::here("data/raw/multiplex/pmah_attr.txt"), 
+    na="NA", sep="\t", dec=".", header= TRUE)
+
+# Interaction matrices extracted from the dataframes.
+pm.herb.mat<- as.matrix(pm.herb[1:19,2:12], 
+		ncol = n, dimnames = list(paste0("A", 1:12), paste0("P", 1:19)))
+row.names(pm.herb.mat)<- pm.herb$X[1:19]
+
+pm.poll.mat<- as.matrix(pm.poll[1:19,2:44], 
+		dimnames = list(paste0("A", 1:44), paste0("P", 1:19)))
+row.names(pm.poll.mat)<- pm.poll$X[1:19]
+
+pm.disp.mat<- as.matrix(pm.disp[1:19,2:22], 
+		dimnames = list(paste0("A", 1:22), paste0("P", 1:19)))
+row.names(pm.disp.mat)<- pm.disp$X[1:19]
+
+# Total number of distinct nodes (physical nodes). 
+# Here the trees are counted just once.
+dim(pm.herb.mat)[1]+dim(pm.herb.mat)[2]+dim(pm.poll.mat)[2]+dim(pm.disp.mat)[2]
+
+# Total number of state nodes (trees). Here the trees are counted just once.
+dim(pm.herb.mat)[1]
+
+# Total number of nodes (physical and state). 
+# Here the trees (state nodes) are counted three times, one state in each layer.
+dim(pm.herb.mat)[1]+dim(pm.herb.mat)[2]+dim(pm.poll.mat)[1]+dim(pm.poll.mat)[2]+
+    dim(pm.disp.mat)[1]+dim(pm.disp.mat)[2]
+
+# Total number of interactions recorded
+dim(pm.herb.mat); dim(pm.poll.mat); dim(pm.disp.mat)
+sum(pm.herb.mat, pm.poll.mat, pm.disp.mat)
+non_zero_count <- sum(pm.herb.mat != 0,   # Count non-zero elements. 
+                                          # No. distinct interactions.
+                      pm.poll.mat != 0, 
+                      pm.disp.mat != 0) ; non_zero_count
+
+# Convert a matrix to an edge list for bipartite network
+pm.disp.bip<- matrix_to_list_bipartite(pm.disp.mat, 
+                                       group_names = c('A_set', 
+                                                       'P_set'))$edge_list
+
+pm.poll.bip<- matrix_to_list_bipartite(pm.poll.mat, 
+                                       group_names = c('A_set', 
+                                                       'P_set'))$edge_list
+
+pm.herb.bip<- matrix_to_list_bipartite(pm.herb.mat, 
+                                       group_names = c('A_set', 
+                                                       'P_set'))$edge_list
+
+```
+
+# Multilayer structure
+
+This is code to create the multilayer structure.
+
+```{r multilayer, echo= TRUE}
+# Create the layers from the matrix. These are  the intra-layer interactions,
+# based on the adjacency matrices.
+herbivory_layer <- pm.herb.mat
+pollination_layer <- pm.poll.mat
+seed_dispersal_layer <- pm.disp.mat
+	
+layer_attrib <- tibble(layer_id=1:3,
+                     layer_name=c('Herbivory','Pollination',
+                     			  'Seed dispersal'),
+                     Method=c('Observation','Collection','Observation'))
+
+# Create the ELL tibble with interlayer links.
+interlayer <- tibble(layer_from= c(rep('Herbivory',19),
+								   rep('Pollination',19)),
+                     node_from= c("pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865",
+                                 "pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865"),
+                     layer_to= c(rep('Pollination',19), 
+							     rep('Seed dispersal',19)),
+                     node_to= c("pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865",
+                                 "pm1933","pm1931","pm1932","pm1934","pm1936",
+                                  "pm1937","pm1938","pm1939","pm1940","pm1921",
+                                  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                                  "pm8801","pm8808","pm8814","pm8865"),
+					             weight= 1) # I'm assuming here 
+                                            # interlayer links weights= 1.
+
+# Create the multilayer. It has 132 nodes, counting the trees just as physical 
+# nodes (only once).
+
+multilayer_bip_pru <- create_multilayer_network(list_of_layers = 
+					  list(herbivory_layer, pollination_layer, 
+					       seed_dispersal_layer), 
+					  bipartite = T, 
+					  directed = F, 
+					  interlayer_links = interlayer, 
+					  layer_attributes = layer_attrib)
+
+```
+
+## emln Analysis. SAM matrix
+
+Here I get the supra-adjacency matrix (SAM) and generate a the whole graph.
+
+```{r emln, echo=TRUE, fig.height=12,fig.width=14}
+library(emln)
+library(tidyverse)
+library(infomapecology)
+library(magrittr)
+
+# Get the SAM. Remove zero rows/cols and get a sparse matrix. This has 279 nodes, 
+# including the trees counted three times and animals counted three times. The full
+# list can found in multilayer_bip_pru$nodes and the complete list of nodes 
+# (including the NAs of the large megamatrix, in: multilayer_bip_pru$state_nodes_map.
+pru.sam_bipartite <- get_sam(multilayer = multilayer_bip_pru, bipartite = T,
+                             directed = F, sparse = F, remove_zero_rows_cols = T)
+dim(pru.sam_bipartite$M) # This is a 132x132 square supra-adjacency matrix.
+pru.sam_bipartite$M
+
+# Dimension of the supramatrix: 
+# 
+# Here I count all the trees three times and all the animals three times.
+# The interactions between animals in layers where they are not present are 
+# included in SAM as NAs.
+SAM_dim<- (dim(pm.herb.mat)[1]*3)+ # Counts of trees
+          (dim(pm.herb.mat)[2]*3)+
+          (dim(pm.poll.mat)[2]*3)+
+          (dim(pm.disp.mat)[2]*3)  ; SAM_dim
+
+visweb(pru.sam_bipartite$M, type= "none",
+       circles=TRUE, boxes=F, 
+	   labsize=1, circle.max=1, circle.min=0.15,
+       text="no", outerbox.border="black", circle.col="#5878A8", 
+       box.col="lightgrey")
+visweb(pru.sam_bipartite$M,
+       circles=TRUE, boxes=F, 
+	   labsize=1, circle.max=1.5, circle.min=0.25,
+       text="no", outerbox.border="black", circle.col="#5878A8", 
+       box.col="lightgrey")
+
+# These are the unipartite graphs.
+g_layers_bip <- get_igraph(multilayer = multilayer_bip_pru, bipartite = T, 
+                           directed = F)
+l1 <- g_layers_bip$layers_igraph[[1]]
+l2 <- g_layers_bip$layers_igraph[[2]]
+l3 <- g_layers_bip$layers_igraph[[3]]
+l1; l2; l3
+
+```
+
+These are 3D heatmap plots of the supra-adjacency matrix.
+
+```{r 3D, echo=TRUE, fig.height=14, fig.width=14}
+# 3d heatmap
+# 
+mat<- pru.sam_bipartite$M
+rownames(mat)<- c("pm1933","pm1931","pm1932","pm1934","pm1936","pm1937",
+                  "pm1938","pm1939","pm1940","pm1921","pm1823","pm1824",
+                  "pm1820","pm1825","pm1929","pm8801","pm8808","pm8814",
+                  "pm8865","Yponomeuta.mahalebella","Hemaris.fuciformis",
+                  "Iphiclides.podalirius","Hedya.pruniana","Orthoptera.NI",
+                  "Myzus.cerasi","Aglaope.infausta","Fungus.NI",
+                  "Taphrina.deformans","Ungulates","NI","pm1933","pm1931",
+                  "pm1932","pm1934","pm1936","pm1937","pm1938","pm1939",
+                  "pm1940","pm1921","pm1823","pm1824","pm1820","pm1825",
+                  "pm1929","pm8801","pm8808","pm8814","pm8865",
+                  "Hemaris.tityus","Iphiclides.podalirius","Vanessa.cardui",
+                  "Psithyrus.vestalis.obenbergeri","Bombus.pratorum.m.",
+                  "Bombus.pratorum.wk.","Bombus.pascuorum.wk.",
+                  "Bombus.pascuorum.q.","Bombus.terrestris.wk.",
+                  "Bombus.terrestris.q.","Xylocopa.violacea","Apis.mellifera",
+                  "Osmia.rufa","Andrena.fulva","Andrena.synadelpha.nigroaenea",
+                  "Andrena.trimmerana","Andrena.congruens",
+                  "Andrena.tibialis.corvina","Andrena.albopunctata.morio",
+                  "Andrena.assimilis","Halictus.quadricinctus",
+                  "Halictus.tridivisus","Halictus.scabiosae",
+                  "Lasioglossum.xanthopum","Sphecodes.gibbus",
+                  "Megachile.centuncularis","Ancistrocerus.nigricornis",
+                  "Eristalis.tenax","Eristalis.pratorum","Eristalis.arbustorum",
+                  "Cheilosia.glossa","Mallota.fuciformis",
+                  "Dasysyrphus.albostriatus","Syrphus.vitripennis",
+                  "Syrphus.ribessi","Criorhina.berberina","Calliphora.vomitoria",
+                  "Gonia.ornata","Pollenia.rudis","Tachina.corsicana",
+                  "Asilidae.n.i.","Empididae.n.i.","Diptera.n.i.","pm1933",
+                  "pm1931","pm1932","pm1934","pm1936","pm1937","pm1938",
+                  "pm1939","pm1940","pm1921","pm1823","pm1824","pm1820",
+                  "pm1825","pm1929","pm8801","pm8808","pm8814","pm8865",
+                  "Columba.palumbus","Garrulus.glandarius","Turdus.merula",
+                  "Phoenicurus.ochruros","Erithacus.rubecula","Parus.ater",
+                  "Fringilla.coelebs","Sylvia.conspicillata",
+                  "Sylvia.atricapilla","Turdus.viscivorus","Sylvia.communis",
+                  "Sylvia.melanocephala","Sylvia.borin","Parus.caeruleus",
+                  "Phoenicurus.phoenicurus","Parus.cristatus","Parus.major",
+                  "Sylvia.cantillans","Sitta.europaea","Dendrocopos.major",
+                  "Unidentified")
+
+# Plot
+col_fun = circlize::colorRamp2(c(0, 1, 2, 4, 6, 8), 
+                               c("#FFFFFF", "#B3C0F5", "#7A93F5", 
+                                 "#1E36EB", "#070F85","#082173"))
+ht_opt$TITLE_PADDING = unit(c(10, 2), "mm")
+
+# This takes time...
+Heatmap3D(log(mat+1), name = c("Interaction frequency"), col = col_fun,
+          cluster_columns = FALSE, show_row_dend = FALSE, 
+          cluster_rows = FALSE,
+          show_column_names = TRUE,
+          heatmap_legend_param = list(at = c(0, 1, 2, 4, 6, 8), 
+                                      labels = c("0", "30", "60", 
+                                                 "90", "120",">150")),
+          column_title = '      ',
+          row_names_side = "left", 
+          column_names_gp = gpar(fontsize = 9),
+          border = TRUE,
+          border_gp = gpar(col = "lightgrey"),
+          row_names_gp = gpar(fontsize = 7),
+          # new arguments for Heatmap3D()
+          bar_rel_width = 1, bar_rel_height = 1, 
+          bar_max_length = unit(0.7, "cm")
+          )
+
+```
+
+## Comparing EC scores in monolayer and multilayer networks
+
+Calculating the Eigenvector centrality score of each state node on a per-layer basis. Then
+using a stack bar plot to include also the multilayer eigen-centralities.
+
+```{r eigenv_centr_monolayer, echo= TRUE, fig.height=9, fig.width=12}
+# Get a list of igraph objects as layers igraph 
+g_layers_bip <- get_igraph(multilayer = multilayer_bip_pru, 
+                           bipartite = T, directed = F)
+
+# get Eigenvector scores of igraph layers
+eigen_igraph_herb<- 
+    igraph::eigen_centrality(g_layers_bip$layers_igraph$'Herbivory')$vector
+eigen_igraph_poll<- 
+    igraph::eigen_centrality(g_layers_bip$layers_igraph$'Pollination')$vector
+eigen_igraph_disp<- 
+    igraph::eigen_centrality(g_layers_bip$layers_igraph$'Seed dispersal')$vector
+
+# Save the mono-layer eigenvector centralities
+eigen_igraph_mono<- list(eigen_igraph_herb,eigen_igraph_poll,
+                            eigen_igraph_disp)
+
+eigenc_mono<- read.table(here::here("data/raw/multiplex/pm_eigen_centrality_mono.tsv"), 
+                         sep="\t", dec=".", header= TRUE)
+
+# Stackbar plots for monolayer centralities of the trees.
+# TODO 
+# Extract the trees
+eigenc_mono_trees<- read.table(here::here(
+    "data/raw/multiplex/pm_eigen_centrality_mono_trees.tsv"), 
+    sep="\t", dec=".", header= TRUE)
+
+#------------------------------------------------------------------
+# Only trees eigenvector centrality.
+eigenc_bar<- eigenc_mono_trees
+colnames(eigenc_bar)<- c("layer","node","eigen.centrality")
+
+# Plotting just the monolayer centralities, stacked.
+ggplot(eigenc_bar, aes(x= reorder(node, -eigen.centrality), 
+                       y=eigen.centrality, fill=layer))+
+  geom_bar(stat="identity", width=1, col="white")+
+  theme_bw()+
+  scale_x_discrete(name="")+
+  ggtitle("Trees eigenvector centrality") +
+  theme(plot.title = element_text(face = "bold", size = 16, colour = "black", 
+                                  hjust = 0.5, vjust = 1)) +
+  scale_fill_manual(values=c("#5878A8", "#8EACDF", "#C6E4FF")) +
+  coord_flip()
+
+#-----------------------------------------------------------------
+# The multilayer
+#-----------------------------------------------------------------
+# My function for bipartite graph.
+bip_init_igraph <- function (mat) {
+                require(igraph)
+                igraph::graph_from_incidence_matrix(mat,
+                        weighted= T, add.names= T)
+}
+#-----------------------------------------------------------------
+# get the SAM
+pru.sam_bipartite <- get_sam(multilayer = multilayer_bip_pru, bipartite = T, 
+							 directed = F, sparse = F, remove_zero_rows_cols = T)
+
+# converting SAM to igraph object
+graph_sam.g <- bip_init_igraph(pru.sam_bipartite$M)
+graph_sam.g 
+
+#-----------------------------------------------------------------
+# Tree multi-layer eigenvector centrality
+# eigenc_bar2<-as.data.frame(eigenc_bar2)
+
+# Get Eigenvector scores
+eigen_sam.g <- igraph::eigen_centrality(graph_sam.g, directed = F, scale = T)$vector
+# Extract the trees
+cond<- c(1:19,94:112,187:205) 
+eigen_SAM<- as.numeric(eigen_sam.g[cond])
+
+# Merge to data frame eigenvector comparison
+ec_comparison <- data.frame(eigen_SAM, eigenc_bar$eigen.centrality) ## CHECK!!!
+colnames(ec_comparison) <- c("multilayer","monolayer")
+ec_comparison$monolayer[4]  <- 0.8567376385295642 # Correct typo 
+                                                  # in tree pm1934.
+                                                  # in tree pm1934.
+eigen_igraph<- ec_comparison[,2]
+eigen_multi_trees<- eigen_igraph[1:19]
+
+
+eigen_multi_trees<- as.data.frame(eigen_multi_trees)
+colnames(eigen_multi_trees)<- c("Multilayer")
+eigen_multi_trees[4,]<- 0.8567376385295642   # Correct typo 
+                                             # in tree pm1934.
+
+xx<- data.frame(cbind(rep("Multilayer",19),
+                      eigenc_bar$node[1:19],
+                      eigen_multi_trees$Multilayer))
+colnames(xx)<- c("layer","node","eigen.centrality")
+
+# Alter column formats
+xx <- xx %>%
+  mutate(
+    layer = as.character(layer),
+    node = as.character(node),
+    eigen.centrality= as.numeric(eigen.centrality)
+  )
+
+eigen_centr <- xx %>%
+bind_rows(eigenc_bar)
+levels(as.factor(eigen_centr$layer))
+eigen_centr$layer<- factor(eigen_centr$layer, levels=c('Multilayer', 
+                                                       'Herbivory',
+                                                       'Pollination', 
+                                                       'Seed dispersal'))
+
+ggplot(eigen_centr, aes(x= reorder(node, -eigen.centrality), 
+                        y= eigen.centrality, fill=layer))+
+  geom_bar(stat="identity", width=1, col="white")+
+  scale_fill_manual(values=c("#00325B", "#5878A8", "#8EACDF", "#C6E4FF")) +
+  theme_bw()+
+  scale_x_discrete(name="")+
+  ggtitle("Trees multilayer eigenvector centrality") +
+  theme(plot.title = element_text(face = "bold", size = 16, colour = "black", 
+                                  hjust = 0.5, vjust = 1)) +
+  coord_flip()
+
+####################
+
+```
+
+Now calculating the eigenvector centrality score of each state node (the trees) using a
+SAM of the multilayer network. Then I compare the multilayer eigenv-centrality with the
+monolayer centralities.
+
+```{r eigenv_centr_comparison, echo= TRUE, fig.height=12,fig.width=14}
+# Scatter plot for eigenvector centralities comparison
+ggplot(data = ec_comparison, aes(monolayer, multilayer)) + 
+           	geom_point(aes(color= "#00325B"), size= 5, color= "black") +
+            geom_point(color = "#859BF2", size = 3) + 
+           labs(title = "Multilayer Eigenvector Centrality (EC) comparison", 
+                x = "EC (monolayer)", y = "EC (multilayer)")+
+  geom_abline()+
+  scale_x_continuous(limits = c(0,1))+
+  scale_y_continuous(limits = c(0,1))+
+  coord_fixed() +
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.title = element_text(size=15),
+        axis.text = element_text(color='black',size = 10),
+        legend.text =  element_text(size=15),
+        legend.title = element_text(size=20))
+
+```
+
+The deviation of the points from the reference line indicates a lack of correlation
+between the two centrality scores. We see that the majority of the nodes that are
+important in a monolayer, lose this importance in the multilayer network. There is also a
+group of species that are important in both network types (upper right corner). This
+highlights the value of considering the unique ecological processes and interactions
+represented by different layers when analyzing multilayer networks and interpreting node
+importance.
+
+### Strength comparison
+
+```{r}
+#|> echo= TRUE
+#|> fig.height= 9
+#|> fig.width= 12
+
+# Data 
+strength<- read.table(here::here("RCode/multiplex/emln_input/strength.csv"), 
+                         sep=",", dec=".", header= TRUE)
+
+# Stack the outcome columns
+strength_df1 <- strength %>%
+  dplyr::filter(node==c(1:19)) %>% 
+  pivot_longer(
+    cols = c(layer1, layer2, layer3),
+    names_to = "layer",
+    values_to = "strength")
+
+# Scatter plot for eigenvector centralities comparison
+ggplot(data = strength_df1, aes(agg, strength)) + 
+			geom_point(aes(color= "#00325B"), size= 5, color= "black") +
+            geom_point(color = "#859BF2", size = 3) + 
+              labs(title = "Multilayer strength comparison", 
+                x = "Strength (multilayer)", y = "Strength (monolayer)")+
+  geom_abline()+
+  coord_fixed() +
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.title = element_text(size=15),
+        axis.text = element_text(color='black',size = 10),
+        legend.text =  element_text(size=15),
+        legend.title = element_text(size=20))
+
+# Stack the outcome columns adding the data for multilayer strength.
+strength_df2 <- strength %>%
+  dplyr::filter(node==c(1:19)) %>% 
+  pivot_longer(
+    cols = c(agg, layer1, layer2, layer3),
+    names_to = "layer",
+    values_to = "strength")
+
+strength_df <- strength_df2 %>%
+mutate(layer = recode(layer, 'agg'= 'Multilayer', 'layer1' = 'Herbivory', 
+                         'layer2' = 'Pollination', 
+                         'layer3' = 'Seed dispersal'))
+
+strength_df$layer<- as.factor(strength_df$layer)
+strength_df$layer<- factor(strength_df$layer, levels=c('Multilayer', 
+                                                       'Herbivory',
+                                                       'Pollination', 
+                                                       'Seed dispersal'))
+
+strength_df$tree<- rep(c("pm1933","pm1931","pm1932","pm1934","pm1936",
+                     			  "pm1937","pm1938","pm939","pm1940","pm1921",
+                     			  "pm1823","pm1824","pm1820","pm1825","pm1929",
+                     			  "pm8801","pm8808","pm8814","pm8865"), each = 4  )
+ggplot(strength_df, aes(x= reorder(tree, -strength), 
+                        y= strength, fill=layer))+
+  geom_bar(stat="identity", width=1, col="white")+
+  scale_fill_manual(values=c("#00325B", "#5878A8", "#8EACDF", "#C6E4FF")) +
+  theme_bw()+
+  scale_x_discrete(name="")+
+  ggtitle("Trees multilayer strength") +
+  theme(plot.title = element_text(face = "bold", size = 16, colour = "black", 
+                                  hjust = 0.5, vjust = 1)) +
+  coord_flip()
+
+```
+
+### Modularity SAM with bipartite
+
+Modularity with bipartite SAM network and with infomap.
+
+```{r multilayer_modularity, echo= TRUE, fig.height=12,fig.width=14}
+# NOT RUN ###################################################################
+#library(emln)
+#install_infomap()
+source(here::here("RCode/functions/my_run_infomap_multilayer.R"))
+result <- my_run_infomap_multilayer(
+    M = multilayer_bip_pru,
+    infomap_executable = "Infomap", # pathto Infomap
+    flow_model = "undirected", # Specify flow model explicitly
+    silent = FALSE, # Enable verbose output for debugging
+    trials = 100,
+    relax = TRUE, # Disable relaxation if input format is extended
+    run_standalone=T) # Run standalone execution
+# NOT RUN ###################################################################
+# 
+
+# Testing modularity significance (@30 min for 100 null replicates)
+require(bipartite)
+TIME <- Sys.time()
+mat <- pru.sam_bipartite$M     # Assign the observed matrix
+node_names_supramux_132<- 
+    read.table(here::here("./data/raw/prunus_data/node_names_supramux_132.txt"))
+rownames(mat)<- node_names_supramux_132[,1]
+
+res <- computeModules(mat) # Modularity for observed matrix
+nulls <- nullmodel(mat, N=5, method=3)
+modules.nulls <- sapply(nulls, computeModules)
+like.nulls <- sapply(modules.nulls, function(x) x@likelihood)
+z <- (res@likelihood - mean(like.nulls))/sd(like.nulls)
+p <- 2*pnorm(-abs(z))
+cat("M= ", res@likelihood)
+cat("P= ",sprintf("%E", p))
+Sys.time() - TIME 
+
+printoutModuleInformation(res)
+
+plotModuleWeb(res, plotModules = TRUE, 
+rank = FALSE, weighted = TRUE, displayAlabels = TRUE, 
+displayBlabels = TRUE, labsize = 0.5, xlabel = "", ylabel = "", 
+square.border = "white", fromDepth = 0, upToDepth = -1)
+
+# Print the whole network to assess node names
+pru.sam_bipartite %>% print(n=Inf, na.print = "<NA>")
+
+```
+
+------------------------------------------------------------------------------------------
+
+{{< pagebreak >}}
+
+### Software used
+
+```{r echo=FALSE}
+pkgs <- grateful::cite_packages(output = "table", pkgs = "Session", out.dir = ".")
+knitr::kable(pkgs)
+
+```
+
+{{< pagebreak >}}
+
+### Session info
+
+```{r session, echo= FALSE, warning=FALSE, error=FALSE}
+sessionInfo()
+
+```
+
+## References
