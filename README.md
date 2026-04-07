@@ -144,11 +144,11 @@ We used R version 4.4.1 (R Core Team 2024) and the following R packages: ade4 v.
 ***Package citations***
 Davison, A.C. and D.V. Hinkley. 1997. Bootstrap Methods and Their Applications. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511802843.
 Anderson, D., A. Heiss, and J. Sumners. 2024. equatiomatic: Transform Models into LaTeX Equations. https://CRAN.R-project.org/package=equatiomatic.
-Angelo C., and B.D. Ripley. 2024. boot: Bootstrap r (s-Plus) Functions. Auguie, Baptiste. 2017. gridExtra: Miscellaneous Functions for Grid Graphics. https://CRAN.R-project.org/package=gridExtra.
-Bates, D., M. Mächler, B. Bolker, and S. Walker. 2015. Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software 67 (1): 1–48. https://doi.org/10.18637/jss.v067.i01.
+Angelo C., and B.D. Ripley. 2024. boot: Bootstrap r (s-Plus) Functions. Auguie, Baptiste. 2017. gridExtra: Miscellaneous Functions for Grid Graphics. https://CRAN.R-project.org/package=gridExtra.   
+Bates, D., M. Mächler, B. Bolker, and S. Walker. 2015. Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software 67 (1): 1–48. https://doi.org/10.18637/jss.v067.i01.   
 Bates, D., M. Maechler, and M. Jagan. 2024. Matrix: Sparse and Dense Matrix Classes and Methods. https://CRAN.R-project.org/package=Matrix.
-Ben-Shachar, Ma.S., D. Lüdecke, and D. Makowski. 2020. effectsize: Estimation of Effect Size Indices and Standardized Parameters. Journal of Open Source Software 5 (56): 2815. https://doi.org/10.21105/joss.02815.
-Bougeard, S., and S. Dray. 2018. Supervised Multiblock Analysis in R with the ade4 Package. Journal of Statistical Software 86 (1): 1–17. https://doi.org/10.18637/jss.v086.i01.
+Ben-Shachar, Ma.S., D. Lüdecke, and D. Makowski. 2020. effectsize: Estimation of Effect Size Indices and Standardized Parameters. Journal of Open Source Software 5 (56): 2815. https://doi.org/10.21105/joss.02815.   
+Bougeard, S., and S. Dray. 2018. Supervised Multiblock Analysis in R with the ade4 Package. Journal of Statistical Software 86 (1): 1–17. https://doi.org/10.18637/jss.v086.i01.    
 Chessel, D., A. Dufour, and J. Thioulouse. 2004. The ade4 Package – I: One-Table Methods. R News 4 (1): 5–10. https://cran.r-project.org/doc/Rnews/.
 Dray, S., and A. Dufour. 2007. The ade4 Package: Implementing the Duality Diagram for Ecologists. Journal of Statistical Software 22 (4): 1–20. https://doi.org/10.18637/jss.v022.i04.
 Dray, S., A. Dufour, and D. Chessel. 2007. The ade4 Package – II: Two-Table and K-Table Methods. R News 7 (2): 47–52. https://cran.r-project.org/doc/Rnews/.
