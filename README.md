@@ -128,7 +128,7 @@ For _Euterpe edulis_ frugivore assemblage. Galetti et al. (2013) _Science_.
 The ***RCode*** folder (compressed file Rcode.zip) contains scripts, .Rmd, and .qmd files for data analyses in R.   
 The /functions folder contains scripts with R function for multilayer analyses in muxViz and infomap.     
 The /multiplex folder contains code in .Rmd and .qmd files including commented notes and thorough descriptions of the analyses. A part of the analyses, for infomap, are done with binaries included in the /multiplex/src-exe/ subfolder.  
-The analysis flow is described and delineated in the files: ms_analyses.qmd, emln_analyses.qmd, infomap.Rmd, pru_muxviz.qmd, and multiplex_correlates.qmd.  
+The analysis flow is described and delineated in the files: ms_analyses.qmd, emln_analyses.qmd, infomap.Rmd, pru_muxviz.qmd, and multiplex_correlates.qmd.     
 ###### NOTE: Code for multilayer analysis with the muxViz package is provided in a separate subfolder (/multiplex/src-exe/). It requires specific installation of external binaries. I’ve run it on R version 4.0, since several required packages have not recent versions.
 
 - Rcode.zip
