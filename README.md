@@ -38,9 +38,10 @@ Folder and file structure:
 Biodiversity data for plant-frugivore mutualistic assemblages. 
 Dataset: number of interactions and nodes in plant-frugivore interaction
 networks.
-Variables included:
+Variables included:   
+
     ***id***: number ID. of dataset.
-    ***type***: sp, species-based network; ind: individual-based network.
+    ***code***: sp, species-based network; ind: individual-based network.
     ***sp***: plant species name and family.
     ***P***: number of plant species (for sp-based netwotks) or plant individuals (for individual-based networks) studied. 
     ***A***: number of animal species.
@@ -50,8 +51,7 @@ Variables included:
     ***biome***: t, tropical; nt: non-tropical.
     ***site***: study locality. 
     ***reference***: Bibliographic reference.
-    ***node***: refers to the total number of species or of individuals (P+A) in the adjacency matrix.
-    Missing data coded as NA.
+
 Reference for data: Quintero et al. 2025. PNAS, doi= 10.1101/2024.02.02.578595.        
 
 -------
