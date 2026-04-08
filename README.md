@@ -144,39 +144,39 @@ We used R version 4.4.1 (R Core Team 2024) and the following R packages: ade4 v.
 ***Package citations***
 Davison, A.C. and D.V. Hinkley. 1997. Bootstrap Methods and Their Applications. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511802843.
 Anderson, D., A. Heiss, and J. Sumners. 2024. equatiomatic: Transform Models into LaTeX Equations. https://CRAN.R-project.org/package=equatiomatic.
-Angelo C., and B.D. Ripley. 2024. boot: Bootstrap r (s-Plus) Functions. Auguie, Baptiste. 2017. gridExtra: Miscellaneous Functions for Grid Graphics. https://CRAN.R-project.org/package=gridExtra.
-Bates, D., M. Mächler, B. Bolker, and S. Walker. 2015. Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software 67 (1): 1–48. https://doi.org/10.18637/jss.v067.i01.
+Angelo C., and B.D. Ripley. 2024. boot: Bootstrap r (s-Plus) Functions. Auguie, Baptiste. 2017. gridExtra: Miscellaneous Functions for Grid Graphics. https://CRAN.R-project.org/package=gridExtra.   
+Bates, D., M. Mächler, B. Bolker, and S. Walker. 2015. Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software 67 (1): 1–48. https://doi.org/10.18637/jss.v067.i01.   
 Bates, D., M. Maechler, and M. Jagan. 2024. Matrix: Sparse and Dense Matrix Classes and Methods. https://CRAN.R-project.org/package=Matrix.
-Ben-Shachar, Ma.S., D. Lüdecke, and D. Makowski. 2020. effectsize: Estimation of Effect Size Indices and Standardized Parameters. Journal of Open Source Software 5 (56): 2815. https://doi.org/10.21105/joss.02815.
-Bougeard, S., and S. Dray. 2018. Supervised Multiblock Analysis in R with the ade4 Package. Journal of Statistical Software 86 (1): 1–17. https://doi.org/10.18637/jss.v086.i01.
+Ben-Shachar, Ma.S., D. Lüdecke, and D. Makowski. 2020. effectsize: Estimation of Effect Size Indices and Standardized Parameters. Journal of Open Source Software 5 (56): 2815. https://doi.org/10.21105/joss.02815.   
+Bougeard, S., and S. Dray. 2018. Supervised Multiblock Analysis in R with the ade4 Package. Journal of Statistical Software 86 (1): 1–17. https://doi.org/10.18637/jss.v086.i01.    
 Chessel, D., A. Dufour, and J. Thioulouse. 2004. The ade4 Package – I: One-Table Methods. R News 4 (1): 5–10. https://cran.r-project.org/doc/Rnews/.
-Dray, S., and A. Dufour. 2007. The ade4 Package: Implementing the Duality Diagram for Ecologists. Journal of Statistical Software 22 (4): 1–20. https://doi.org/10.18637/jss.v022.i04.
-Dray, S., A. Dufour, and D. Chessel. 2007. The ade4 Package – II: Two-Table and K-Table Methods. R News 7 (2): 47–52. https://cran.r-project.org/doc/Rnews/.
-Habel, K., R. Grasman, R.B. Gramacy, P. Mozharovskyi, and D.C. Sterratt. 2025. geometry: Mesh Generation and Surface Tessellation. https://CRAN.R-project.org/package=geometry.
+Dray, S., and A. Dufour. 2007. The ade4 Package: Implementing the Duality Diagram for Ecologists. Journal of Statistical Software 22 (4): 1–20. https://doi.org/10.18637/jss.v022.i04.           
+Dray, S., A. Dufour, and D. Chessel. 2007. The ade4 Package – II: Two-Table and K-Table Methods. R News 7 (2): 47–52. https://cran.r-project.org/doc/Rnews/.           
+Habel, K., R. Grasman, R.B. Gramacy, P. Mozharovskyi, and D.C. Sterratt. 2025. geometry: Mesh Generation and Surface Tessellation. https://CRAN.R-project.org/package=geometry.           
 Kassambara, A. 2023. ggcorrplot: Visualization of a Correlation Matrix Using ggplot2. https://CRAN.R-project.org/package=ggcorrplot.
-Laliberté, E., and P. Legendre. 2010. A Distance-Based Framework for Measuring Functional Diversity from Multiple Traits. Ecology 91: 299–305.
+Laliberté, E., and P. Legendre. 2010. A Distance-Based Framework for Measuring Functional Diversity from Multiple Traits. Ecology 91: 299–305.           
 Laliberté, E., P. Legendre, and B. Shipley. 2014. FD: Measuring Functional Diversity from Multiple Traits, and Other Tools for Functional Ecology.
-Lüdecke, D., M.S. Ben-Shachar, I. Patil, and Do. Makowski. 2020. Extracting, Computing and Exploring the Parameters of Statistical Models Using R. Journal of Open Source Software 5 (53): 2445. https://doi.org/10.21105/joss.02445.
-Lüdecke, D., M.S. Ben-Shachar, I. Patil, P. Waggoner, and D. Makowski. 2021. performance: An R Package for Assessment, Comparison and Testing of Statistical Models. Journal of Open Source Software 6 (60): 3139. https://doi.org/10.21105/joss.03139.
-Lüdecke, D., M.S. Ben-Shachar, I. Patil, B.M. Wiernik, E. Bacher, R. Thériault, and D. Makowski. 2022. easystats: Framework for Easy Statistical Modeling, Visualization, and Reporting. CRAN. https://doi.org/10.32614/CRAN.package.easystats.
-Lüdecke, D., I. Patil, M.S. Ben-Shachar, B.M. Wiernik, P. Waggoner, and D. Makowski. 2021. see: An R Package for Visualizing Statistical Models. Journal of Open Source Software 6 (64): 3393. https://doi.org/10.21105/joss.03393.
-Lüdecke, D., P. Waggoner, and D. Makowski. 2019. insight: A Unified Interface to Access Information from Model Objects in R. Journal of Open Source Software 4 (38): 1412. https://doi.org/10.21105/joss.01412.
-Makowski, D., Ma.S. Ben-Shachar, and D. Lüdecke. 2019. bayestestR: Describing Effects and Their Uncertainty, Existence and Significance Within the Bayesian Framework. Journal of Open Source Software 4 (40): 1541. https://doi.org/10.21105/joss.01541.
-Makowski, D., M.S. Ben-Shachar, I. Patil, and Da. Lüdecke. 2020a. Estimation of Model-Based Predictions, Contrasts and Means. CRAN. https://github.com/easystats/modelbased.
+Lüdecke, D., M.S. Ben-Shachar, I. Patil, and Do. Makowski. 2020. Extracting, Computing and Exploring the Parameters of Statistical Models Using R. Journal of Open Source Software 5 (53): 2445. https://doi.org/10.21105/joss.02445.           
+Lüdecke, D., M.S. Ben-Shachar, I. Patil, P. Waggoner, and D. Makowski. 2021. performance: An R Package for Assessment, Comparison and Testing of Statistical Models. Journal of Open Source Software 6 (60): 3139. https://doi.org/10.21105/joss.03139.           
+Lüdecke, D., M.S. Ben-Shachar, I. Patil, B.M. Wiernik, E. Bacher, R. Thériault, and D. Makowski. 2022. easystats: Framework for Easy Statistical Modeling, Visualization, and Reporting. CRAN. https://doi.org/10.32614/CRAN.package.easystats.           
+Lüdecke, D., I. Patil, M.S. Ben-Shachar, B.M. Wiernik, P. Waggoner, and D. Makowski. 2021. see: An R Package for Visualizing Statistical Models. Journal of Open Source Software 6 (64): 3393. https://doi.org/10.21105/joss.03393.           
+Lüdecke, D., P. Waggoner, and D. Makowski. 2019. insight: A Unified Interface to Access Information from Model Objects in R. Journal of Open Source Software 4 (38): 1412. https://doi.org/10.21105/joss.01412.           
+Makowski, D., Ma.S. Ben-Shachar, and D. Lüdecke. 2019. bayestestR: Describing Effects and Their Uncertainty, Existence and Significance Within the Bayesian Framework. Journal of Open Source Software 4 (40): 1541. https://doi.org/10.21105/joss.01541.           
+Makowski, D., M.S. Ben-Shachar, I. Patil, and Da. Lüdecke. 2020a. Estimation of Model-Based Predictions, Contrasts and Means. CRAN. https://github.com/easystats/modelbased.           
 ———. 2020b. Methods and Algorithms for Correlation Analysis in R. Journal of Open Source Software 5(51): 2306. https://doi.org/10.21105/joss.02306.
-Makowski, D., D. Lüdecke, I. Patil, R. Thériault, M.S. Ben-Shachar, and B.M. Wiernik. 2023. Automated Results Reporting as a Practical Tool to Improve Reproducibility and Methodological Best Practices Adoption. CRAN. https://easystats.github.io/report/.
-Makowski, D., B.M. Wiernik, I. Patil, D. Lüdecke, and M.S. Ben-Shachar. 2022. correlation: Methods for Correlation Analysis. https://CRAN.R-project.org/package=correlation.
-Müller, K. 2020. here: A Simpler Way to Find Your Files. https://CRAN.R-project.org/package=here. Oksanen, J., G.L. Simpson, F.G. Blanchet, R. Kindt, P. Legendre, P.R. Minchin, R.B. O’Hara, et al. 2024. vegan: Community Ecology Package. https://CRAN.R-project.org/package= vegan.
-Paradis, E., and K. Schliep. 2019. Ape 5.0: An Environment for Modern Phylogenetics and Evolutionary Analyses in R. Bioinformatics 35: 526–28. https://doi.org/10.1093/bioinformatics/bty633.
-Patil, I., D. Makowski, M.S. Ben-Shachar, B.M. Wiernik, E. Bacher, and D. Lüdecke. 2022. datawizard: An R Package for Easy Data Preparation and Statistical Transformations. Journal of Open Source Software 7 (78): 4684. https://doi.org/10.21105/joss.04684.
-R Core Team. 2024. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. https://www.R-project.org/.
-Sarkar, D. 2008. Lattice: Multivariate Data Visualization with r. New York: Springer. http://lmdvr.r-forge.r-project.org.
-Simpson, G.L. 2022. permute: Functions for Generating Restricted Permutations of Data. https://CRAN.R-project.org/package=permute.
-Thioulouse, J., S. Dray, A. Dufour, A. Siberchicot, T. Jombart, and S. Pavoine. 2018. Multivariate Analysis of Ecological Data with ade4. Springer. https://doi.org/10.1007/978-1-4939-8850-1.
-Wickham, H., M. Averick, J. Bryan, W. Chang, L. D’Agostino McGowan, R. François, G. Grolemund, et al. 2019. Welcome to the tidyverse. Journal of Open Source Software 4 (43): 1686. https://doi.org/10.21105/joss.01686.
-Wickham, H., J. Bryan, M. Barrett, and A. Teucher. 2024. usethis: Automate Package and Project Setup. https://CRAN.R-project.org/package=usethis.
-Wickham, H., J. Hester, W. Chang, and J. Bryan. 2022. devtools: Tools to Make Developing r Packages Easier. https://CRAN.R-project.org/package=devtools.
-Xie, Y. 2014. knitr: A Comprehensive Tool for Reproducible Research in R. In Implementing Reproducible Computational Research, edited by Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman; Hall/CRC.
-———. 2015. Dynamic Documents with R and Knitr. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. https://yihui.org/knitr/.
-———. 2024. knitr: A General-Purpose Package for Dynamic Report Generation in r. https://yihui.org/knitr/.
-Zhu, H. 2024. kableExtra: Construct Complex Table with kable and Pipe Syntax. https://CRAN.R-project.org/package=kableExtra.
+Makowski, D., D. Lüdecke, I. Patil, R. Thériault, M.S. Ben-Shachar, and B.M. Wiernik. 2023. Automated Results Reporting as a Practical Tool to Improve Reproducibility and Methodological Best Practices Adoption. CRAN. https://easystats.github.io/report/.           
+Makowski, D., B.M. Wiernik, I. Patil, D. Lüdecke, and M.S. Ben-Shachar. 2022. correlation: Methods for Correlation Analysis. https://CRAN.R-project.org/package=correlation.           
+Müller, K. 2020. here: A Simpler Way to Find Your Files. https://CRAN.R-project.org/package=here. Oksanen, J., G.L. Simpson, F.G. Blanchet, R. Kindt, P. Legendre, P.R. Minchin, R.B. O’Hara, et al. 2024. vegan: Community Ecology Package. https://CRAN.R-project.org/package= vegan.           
+Paradis, E., and K. Schliep. 2019. Ape 5.0: An Environment for Modern Phylogenetics and Evolutionary Analyses in R. Bioinformatics 35: 526–28. https://doi.org/10.1093/bioinformatics/bty633.           
+Patil, I., D. Makowski, M.S. Ben-Shachar, B.M. Wiernik, E. Bacher, and D. Lüdecke. 2022. datawizard: An R Package for Easy Data Preparation and Statistical Transformations. Journal of Open Source Software 7 (78): 4684. https://doi.org/10.21105/joss.04684.           
+R Core Team. 2024. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. https://www.R-project.org/.           
+Sarkar, D. 2008. Lattice: Multivariate Data Visualization with r. New York: Springer. http://lmdvr.r-forge.r-project.org.           
+Simpson, G.L. 2022. permute: Functions for Generating Restricted Permutations of Data. https://CRAN.R-project.org/package=permute.           
+Thioulouse, J., S. Dray, A. Dufour, A. Siberchicot, T. Jombart, and S. Pavoine. 2018. Multivariate Analysis of Ecological Data with ade4. Springer. https://doi.org/10.1007/978-1-4939-8850-1.           
+Wickham, H., M. Averick, J. Bryan, W. Chang, L. D’Agostino McGowan, R. François, G. Grolemund, et al. 2019. Welcome to the tidyverse. Journal of Open Source Software 4 (43): 1686. https://doi.org/10.21105/joss.01686.           
+Wickham, H., J. Bryan, M. Barrett, and A. Teucher. 2024. usethis: Automate Package and Project Setup. https://CRAN.R-project.org/package=usethis.           
+Wickham, H., J. Hester, W. Chang, and J. Bryan. 2022. devtools: Tools to Make Developing r Packages Easier. https://CRAN.R-project.org/package=devtools.           
+Xie, Y. 2014. knitr: A Comprehensive Tool for Reproducible Research in R. In Implementing Reproducible Computational Research, edited by Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman; Hall/CRC.           
+———. 2015. Dynamic Documents with R and Knitr. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. https://yihui.org/knitr/.           
+———. 2024. knitr: A General-Purpose Package for Dynamic Report Generation in r. https://yihui.org/knitr/.           
+Zhu, H. 2024. kableExtra: Construct Complex Table with kable and Pipe Syntax. https://CRAN.R-project.org/package=kableExtra.           
