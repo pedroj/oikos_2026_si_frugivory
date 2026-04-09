@@ -1,27 +1,21 @@
-# ----------------------------------------------------------------------------
-# Dataset: number of interactions and nodes in plant-frugivore interaction
-# networks.
-# Pedro Jordano. Sevilla.. 21 December 2023.
+# Dataset with species and interaction richness for different studies. 
+# See: 
+# Quintero et al. 2025. PNAS, doi: 10.1101/2024.02.02.578595. 
+# Jordano (1987). Amer. Nat., doi: 10.1086/284665.
 #
 # id: number ID. of dataset.
-# type: sp, species-based network; ind: individual-based network.
+# code: sp, species-based network; ind: individual-based network.
 # sp: plant species name and family.
-# P: number of plant species (for sp-based netwotks) or plant individuals (for 
-#    ind-based networks) studied. 
+# P: number of plant species (for sp-based networks) or plant individuals (for individual-based networks) studied. 
 # A: number of animal species.
 # S: total number of nodes in the network (A+P).
 # I: number of distinct interactions in network.
 # C: connectance (C= i/(A+P)).
 # biome: t, tropical; nt: non-tropical.
-# site: study locality.
+# site: study locality. 
 # reference: Bibliographic reference.
-# node: refers to the total number of species or of individuals (P+A) in 
-#       the adjacency matrix.
-# 
-# Reference for data: Quintero et al. 2025. 
-#                     PNAS, doi= 10.1101/2024.02.02.578595.
-# ----------------------------------------------------------------------------
-id	code	type	sp	P	A	S	I	C	biome	site	reference
+#
+id  code	type	sp	P	A	S	I	C	biome	site	reference
 1	indw01	ind	Pistacia lentiscus (Anacardiaceae)	40	27	67	392	0,3630	nt	El Puntal	Quintero, E., Rodríguez‐Sánchez, F., & Jordano, P. (2023). Reciprocity and interaction effectiveness in generalised mutualisms among free‐living species. Ecology Letters, 26(1), 132–146.
 2	indw02	ind	Pistacia lentiscus (Anacardiaceae)	40	16	56	134	0,2094	nt	Laguna de las Madroñas	Quintero, E., Rodríguez‐Sánchez, F., & Jordano, P. (2023). Reciprocity and interaction effectiveness in generalised mutualisms among free‐living species. Ecology Letters, 26(1), 132–146.
 3	indw03	ind	Juniperus phoenicea (Cupressaceae)	35	10	45	137	0,3914	nt	Colonizacion	Isla, J., Jácome-Flores, M., Arroyo, J. M., & Jordano, P. (2023). The turnover of plant–frugivore interactions along plant range expansion: Consequences for natural colonization processes. Proceedings of the Royal Society B: Biological Sciences, 290(1999), 20222547.
@@ -69,8 +63,6 @@ id	code	type	sp	P	A	S	I	C	biome	site	reference
 45	indw45	ind	Naringi crenulata (Rutaceae)	22	12	34	62	0,2348	t	NA	Jayanth, A., Isvaran, K., & Naniwadekar, R. (2024). Drivers of intraspecific variation in seed dispersal can differ across two species of fleshy-fruited savanna plants. Biotropica, 56(3), e13322. https://doi.org/10.1111/btp.13322
 46	indw46	ind	Ziziphus oenopolia (Rhamnaceae)	20	13	33	57	0,2192	nt	NA	Jayanth, A., Isvaran, K., & Naniwadekar, R. (2024). Drivers of intraspecific variation in seed dispersal can differ across two species of fleshy-fruited savanna plants. Biotropica, 56(3), e13322. https://doi.org/10.1111/btp.13322
 47	sdw00	sp	NA	77	68	145	203	0,0388	nt	NA	"Jordano, P. 2007. A compilation of plant-frugivore interactions for Spanish habitats. https://github.com/PJordano-Lab/datasets_networks_spain
-THIS MATRIX IS UNDER WORK!!!- ALL SITES AND SPECIES POOLED INCLUDING LITERATURE REFERENCES
-# NOT YET COMPLETE!!"
 48	sdw01	sp	NA	25	36	61	253	0,2811	nt	Spain, Cazorla-Nava Correhuelas.	Olesen JM, Bascompte J, Dupont YL, Elberling H, Rasmussen C, Jordano P. (2011). Missing and forbidden links in mutualistic networks. Proceedings of the Royal Society B-Biological Sciences 278: 725-732.
 54	sdw02	sp	NA	29	78	107	479	0,2118	nt	RBD-FRUGINT, Spain. 	Moracho, E., Arroyo-Correa, B., Calvo, G., Homet, P., Isla, J., Mendoza, I., Quintero, E., Villalva, P., Rodríguez-Sánchez, F., & Jordano, P. (2023). DONANA-FRUGINT: A dataset of plant-animal interactions. https://doi.org/10.20350/DIGITALCSIC/#####.
 50	sdw02a	sp	NA	16	44	60	201	0,2855	nt	Spain, Hato Ratón	Quintero, E., Isla, J. & Jordano, P. (2022). Methodological overview and data‐merging approaches in the study of plant–frugivore interactions. Oikos, e08379.
@@ -79,11 +71,9 @@ THIS MATRIX IS UNDER WORK!!!- ALL SITES AND SPECIES POOLED INCLUDING LITERATURE 
 53	sdw02d	sp	NA	6	18	24	27	0,2500	nt	Spain, RBD-Sabinares.	Moracho, E., Arroyo-Correa, B., Calvo, G., Homet, P., Isla, J., Mendoza, I., Quintero, E., Villalva, P., Rodríguez-Sánchez, F., & Jordano, P. (2023). DONANA-FRUGINT: A dataset of plant-animal interactions. https://doi.org/10.20350/DIGITALCSIC/#####.
 54	sdw03	sp	NA	17	29	46	147	0,2982	nt	Spain, Cazorla-Nava Noguera.	García-Castaño, J.L. (2001). Consecuencias demográficas de la dispersión de semillas por aves y mamíferos frugívoros en la vegetación mediterránea de montaña. PhD Thesis. Universidad de Sevilla, Spain.
 55	sdw04	sp	NA	3	6	9	11	0,6111	nt	Spain, Campos de Otero, Sierra Nevada, Granada, Spain.	Jordano, P. (1993). Geographical ecology and variation of plant-seed disperser interactions: southern Spanish junipers and frugivorous thrushes. In: Frugivory and seed dispersal: ecological and evolutionary aspects (eds. Fleming, T.H. & Estrada, A.). Kluwer Academic Publisher, Dordrecht, The Netherlands, pp. 85–104.
-56	sdw05	sp	NA	5	6	11	17	0,5667	nt	"Spain, Sabinar del Marqués, Reserva
-Biológica de Doñana, Huelva."	Jordano, P. (1993). Geographical ecology and variation of plant-seed disperser interactions: southern Spanish junipers and frugivorous thrushes. In: Frugivory and seed dispersal: ecological and evolutionary aspects (eds. Fleming, T.H. & Estrada, A.). Kluwer Academic Publisher, Dordrecht, The Netherlands, pp. 85–104.
+56	sdw05	sp	NA	5	6	11	17	0,5667	nt	"Spain, Sabinar del Marqués, Reserva Biológica de Doñana, Huelva."	Jordano, P. (1993). Geographical ecology and variation of plant-seed disperser interactions: southern Spanish junipers and frugivorous thrushes. In: Frugivory and seed dispersal: ecological and evolutionary aspects (eds. Fleming, T.H. & Estrada, A.). Kluwer Academic Publisher, Dordrecht, The Netherlands, pp. 85–104.
 57	sdw06	sp	NA	5	6	11	18	0,6000	nt	Spain, Santa Bárbara, Baza, Granada, Spain.	Jordano, P. (1993). Geographical ecology and variation of plant-seed disperser interactions: southern Spanish junipers and frugivorous thrushes. In: Frugivory and seed dispersal: ecological and evolutionary aspects (eds. Fleming, T.H. & Estrada, A.). Kluwer Academic Publisher, Dordrecht, The Netherlands, pp. 85–104.
-58	sdw07	sp	NA	9	6	15	36	0,6667	nt	"Spain, Cañada del Travino, Sierra de Cazorla, Segura y Las Villas,
-                                Jaén, Spain."	Jordano, P. (1993). Geographical ecology and variation of plant-seed disperser interactions: southern Spanish junipers and frugivorous thrushes. In: Frugivory and seed dispersal: ecological and evolutionary aspects (eds. Fleming, T.H. & Estrada, A.). Kluwer Academic Publisher, Dordrecht, The Netherlands, pp. 85–104.
+58	sdw07	sp	NA	9	6	15	36	0,6667	nt	"Spain, Cañada del Travino, Sierra de Cazorla, Segura y Las Villas, Jaén, Spain."	Jordano, P. (1993). Geographical ecology and variation of plant-seed disperser interactions: southern Spanish junipers and frugivorous thrushes. In: Frugivory and seed dispersal: ecological and evolutionary aspects (eds. Fleming, T.H. & Estrada, A.). Kluwer Academic Publisher, Dordrecht, The Netherlands, pp. 85–104.
 59	sdb19	sp	NA	25	61	86	536	0,3515	t	Ficus	Lambert F. (1989) Fig-eating by birds in a Malaysian lowland rain forest. J. Trop. Ecol., 5, 401-412.
 60	sdb20	sp	NA	207	110	317	1329	0,0584	t	Intervales, Brazil	Silva, W. R., P. De Marco Jr, E. Hasui, and V. S. M. Gomes. 2002. Patterns of fruit-frugivore interactions in two atlantic forest bird communities of South-eastern Brazil: implications for conservation, Pages 423-435 in D. J. Levey, W. R. Silva, and  M. Galetti, eds. Seed dispersal and frugivory: ecology, evolution and conservation. Wallingford, UK, CAB International.
 61	sdb21	sp	NA	171	40	211	877	0,1282	t	Monteverde, Costa Rica	Wheelwright N.T., Haber W.A., Murray K.G. & Guindon C. (1984) Tropical fruiteating birds and their food plants: a survey of a Costa Rican lower montane forest. Biotropica, 16, 173-192.
@@ -99,8 +89,7 @@ Biológica de Doñana, Huelva."	Jordano, P. (1993). Geographical ecology and var
 71	sdw17	sp	NA	71	7	79	214	0,4306	t	NA	Crome, F. H.J. (1975). The ecology of fruit pigeons in tropical Northern Queensland. Aust Wildl Res, 2, 155-185.
 72	sdw18	sp	NA	50	14	64	284	0,4057	t	NA	Snow B.K. & Snow D.W. (1971) The feeding ecology of tanagers and honeycreepers in Trinidad. Auk, 88, 291-322.
 73	sdw22	sp	NA	7	21	28	57	0,3878	nt	NA	Baird, J.W. (1980). The selection and use of fruit by birds in an Eastern forest. Wilson Bulletin, 92, 63-73.
-74	sdw23	sp	NA	41	5	46	89	0,4341	t	NA	"Innis, G.J. (1989). Feeding ecology of fruit pigeons in subtropical rainforests of South-Eastern Queensland. Australian Journal of
- Wildlife Research, 16, 365-394."
+74	sdw23	sp	NA	41	5	46	89	0,4341	t	NA	"Innis, G.J. (1989). Feeding ecology of fruit pigeons in subtropical rainforests of South-Eastern Queensland. Australian Journal of Wildlife Research, 16, 365-394."
 75	sdw24	sp	NA	15	49	64	158	0,2150	t	NA	Pizo, M.A. (2004). Frugivory and habitat use by fruit-eating birds in a fragmented landscape of southeast Brazil. Ornitologia Neotropical, 15, 117-126.
 76	sdw25	sp	NA	22	13	35	123	0,4301	t	NA	Frith, H.J., Crome, F.H.J. & Wolfe, T.O. (1976) Food of fruit pigeons in New Guinea. Emu, 76: 49-58.
 77	sdb26	sp	NA	45	46	91	318	0,1536	t	NA	Donatti, C.I., P.R. Guimarães Jr., M. Galetti, M. A. Pizo, F. M. D. Marquitti, and R. Dirzo. (2011) Analysis of a hyper-diverse seed dispersal network: modularity and underlying mechanisms. Ecology Letters 14:773-781.

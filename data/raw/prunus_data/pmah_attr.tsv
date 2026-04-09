@@ -2,17 +2,17 @@
 # Locality: Nava de las Correhuelas, Parque Natural de las Sierras de Cazorla, 
 #           Segura y Las Villas, Jaén, Spain.
 # See: 
-# See Jordano, P. (1995). Frugivore-mediated selection on fruit and seed size: 
+# Jordano, P. (1995). Frugivore-mediated selection on fruit and seed size: 
 #         birds and St. Lucie's cherry, Prunus mahaleb. Ecology 76: 2627--2627.
 #         doi: 10.2307/2265833
-# See: Jordano, P. and Schupp, E.W. (2000). Seed disperser effectiveness: The quantity 
+# Jordano, P. and Schupp, E.W. (2000). Seed disperser effectiveness: The quantity 
 #         component and patterns of seed rain for Prunus mahaleb. Ecological 
 #         Monographs 70: 591-615.
 #         doi: 10.1890/0012-9615(2000)070[0591:SDETQC]2.0.CO;2
 #
 # Data correspond to samplings in 1988 and 1989.
 #
-# Variables:
+# Variables included:
 # tree: tree label.
 # gender: sex expression. H, hermaphrodite tree. F, functionally female tree. 
 #         The species is gynodioecious.
